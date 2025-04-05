@@ -30,4 +30,16 @@ class LoginController extends Controller
             'message' => 'The provided credentials are incorrect.'
         ], 401);
     }
+
+    public function logout(Request $request)
+    {
+        // Revoke all tokens...
+        $request->user()->tokens()->delete();
+        
+        Auth::guard('web')->logout();
+        
+        return response()->json([
+            'message' => 'Successfully logged out'
+        ]);
+    }
 }
