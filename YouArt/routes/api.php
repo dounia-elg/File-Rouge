@@ -7,3 +7,5 @@ use App\Http\Controllers\Auth\LoginController;
 Route::post('/register', [AuthController::class, 'register']);
 
 Route::post('/login', [LoginController::class, 'login']);
+
+Route::post('/logout', [LoginController::class, 'logout'])->middleware('auth:sanctum');
