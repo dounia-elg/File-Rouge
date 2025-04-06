@@ -1,49 +1,49 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>Login - YouArt</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-header">Login</div>
-                    <div class="card-body">
-                        <div id="success-message" class="alert alert-success" style="display: none;"></div>
-                        <div id="error-message" class="alert alert-danger" style="display: none;"></div>
+<body class="h-screen w-screen bg-cover bg-center flex items-center justify-center" style="background-image: url('images/login.jpg');">
 
-                        <form id="loginForm">
-                            <div class="mb-3">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="email" name="email" required>
-                            </div>
+    <div class="absolute top-5 right-10 text-white">
+        <a href="/" class="text-sm hover:underline">Back to Home</a>
+    </div>
 
-                            <div class="mb-3">
-                                <label for="password" class="form-label">Password</label>
-                                <input type="password" class="form-control" id="password" name="password" required>
-                            </div>
+    <div class="bg-black bg-opacity-70 text-white p-8 rounded-2xl shadow-xl w-full max-w-md text-center">
+        <h2 class="text-2xl font-semibold mb-6">Welcome back</h2>
 
-                            <button type="submit" class="btn btn-primary">Login</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <div id="success-message" class="hidden bg-green-500 text-white px-4 py-2 rounded mb-4"></div>
+        <div id="error-message" class="hidden bg-red-500 text-white px-4 py-2 rounded mb-4"></div>
+
+        <form id="loginForm" class="space-y-4">
+            <input type="email" id="email" name="email" placeholder="Your Email" required
+                   class="w-full px-4 py-2 rounded-full bg-white bg-opacity-20 text-white placeholder-white outline-none focus:ring-2 focus:ring-white">
+
+            <input type="password" id="password" name="password" placeholder="Your Password" required
+                   class="w-full px-4 py-2 rounded-full bg-white bg-opacity-20 text-white placeholder-white outline-none focus:ring-2 focus:ring-white">
+
+            <button type="submit"
+                    class="w-full bg-white text-black font-semibold py-2 rounded-full hover:bg-gray-200 transition">
+                Login
+            </button>
+        </form>
+
+        <p class="mt-4 text-sm text-white">Don't have an account? <a href="/register" class="text-red-400 hover:underline">Sign up</a></p>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
 
-            $('#loginForm').on('submit', function(e) {
+            $('#loginForm').on('submit', function (e) {
                 e.preventDefault();
 
                 $.ajax({
@@ -53,25 +53,23 @@
                         email: $('#email').val(),
                         password: $('#password').val()
                     },
-                    success: function(response) {
+                    success: function (response) {
                         $('#error-message').hide();
                         $('#success-message')
-                            .html('Login successful!')
-                            .show();
-                            
-                        // Store the token
+                            .text('Login successful!')
+                            .removeClass('hidden');
+
                         localStorage.setItem('token', response.token);
-                        
-                        // Redirect after successful login
-                        setTimeout(function() {
+
+                        setTimeout(function () {
                             window.location.href = '/dashboard';
                         }, 1000);
                     },
-                    error: function(xhr) {
+                    error: function (xhr) {
                         $('#success-message').hide();
                         $('#error-message')
-                            .html(xhr.responseJSON.message)
-                            .show();
+                            .text(xhr.responseJSON.message)
+                            .removeClass('hidden');
                     }
                 });
             });
