@@ -31,7 +31,7 @@ class LoginController extends Controller
         ], 401);
     }
 
-    public function logout(Request $request)
+     public function logout(Request $request)
     {
         // Revoke all tokens...
         $request->user()->tokens()->delete();

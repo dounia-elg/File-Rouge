@@ -25,3 +25,8 @@ Route::get('/login', function () {
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware('auth:sanctum')->name('dashboard');
+
+
+Route::get('/artist/space', function () {
+    return view('artist.space');
+})->name('artist.space');
