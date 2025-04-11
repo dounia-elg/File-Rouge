@@ -72,8 +72,7 @@
 
 
 
-    <!-- filepath: c:\Users\youco\Desktop\File Rouge\YouArt\resources\views\artist\space.blade.php -->
-    <!-- Add this before closing body tag -->
+    
 
     <!-- Edit Profile Modal -->
     <div id="editProfileModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
