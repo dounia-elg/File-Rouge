@@ -89,3 +89,5 @@ class ArtistProfileUpdateTest extends TestCase
         $this->assertEquals('Test bio content', $this->user->bio);
     }
 }
+
+
