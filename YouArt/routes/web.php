@@ -3,6 +3,7 @@
 use App\Http\Controllers\Web\RegisterController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\ArtistController;
 
 // Registration Routes
 Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
@@ -22,11 +23,13 @@ Route::get('/login', function () {
     return view('auth.login');
 })->name('login');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware('auth:sanctum')->name('dashboard');
+// Artist Routes 
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
 
-
-Route::get('/artist/space', function () {
-    return view('artist.space');
-})->name('artist.space');
+    // Artist Space Routes
+    Route::get('/artist/space', [ArtistController::class, 'index'])->name('artist.space');
+    Route::put('/artist/profile', [ArtistController::class, 'updateProfile'])->name('artist.profile.update');
+});
