@@ -15,7 +15,7 @@ class UserFactory extends Factory
         return [
             'name' => $this->faker->name,
             'email' => $this->faker->unique()->safeEmail,
-            'email_verified_at' => now(),
+            'email_verified_at' => null, 
             'password' => bcrypt('password'),
             'remember_token' => Str::random(10),
             'role' => $this->faker->randomElement(['artist', 'amateur']),
@@ -23,5 +23,15 @@ class UserFactory extends Factory
             'bio' => $this->faker->paragraph,
             'profile_photo' => null,
         ];
+    }
+
+    // verified users
+    public function verified()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'email_verified_at' => now(),
+            ];
+        });
     }
 }
