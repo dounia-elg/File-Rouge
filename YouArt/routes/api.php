@@ -12,5 +12,5 @@ Route::post('/logout', [LoginController::class, 'logout'])->middleware('auth:san
 
 // Artist routes
 Route::middleware('auth:sanctum')->group(function () {
-    Route::put('/artist/profile', [ArtistController::class, 'updateProfile']);
+    Route::put('/artist/profile', [ArtistController::class, 'updateProfile'])->name('artist.profile.update');
 });

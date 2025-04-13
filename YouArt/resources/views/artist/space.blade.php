@@ -7,6 +7,12 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100">
+    @if(session('success'))
+        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+            <span class="block sm:inline">{{ session('success') }}</span>
+        </div>
+    @endif
+
     <!-- Hero Section -->
     <div class="relative h-64">
         <img src="{{ asset('images/default-hero.jpg') }}" 
@@ -21,58 +27,30 @@
             <div class="flex items-start gap-6">
                 <!-- Profile Photo -->
                 <div class="relative">
-                    <img src="{{ asset('images/default-profile.jpg') }}" 
+                    <img src="{{ auth()->user()->profile_photo 
+                        ? Storage::url('profile-photos/' . auth()->user()->profile_photo) 
+                        : asset('images/default-profile.jpg') }}" 
                          alt="Profile Photo" 
                          class="w-32 h-32 rounded-full object-cover border-4 border-white">
-                    <button class="absolute bottom-0 right-0 bg-gray-100 p-2 rounded-full shadow-lg">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
-                        </svg>
-                    </button>
                 </div>
 
                 <!-- Artist Details -->
                 <div class="flex-1">
                     <div class="flex justify-between items-start">
                         <div>
-                            <h1 class="text-2xl font-bold">Artist Name</h1>
-                            <p class="text-gray-500">Location (Not specified)</p>
-                            <p class="mt-2">0 Followers</p>
+                            <h1 class="text-2xl font-bold">{{ auth()->user()->name }}</h1>
+                            <p class="text-gray-500">{{ auth()->user()->location ?? 'Location (Not specified)' }}</p>
                         </div>
-                        <button class="bg-black text-white px-6 py-2 rounded-full hover:bg-gray-800">
+                        <button onclick="openEditModal()" 
+                                class="bg-black text-white px-6 py-2 rounded-full hover:bg-gray-800">
                             Edit Profile
                         </button>
                     </div>
-                    <p class="mt-4 text-gray-600">No bio yet...</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Artworks Section -->
-        <div class="mt-8 bg-white rounded-lg shadow-lg p-6">
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="text-xl font-bold">My Artworks</h2>
-                <button class="bg-black text-white px-6 py-2 rounded-full hover:bg-gray-800">
-                    Add Artwork
-                </button>
-            </div>
-
-            <!-- Artworks Grid -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                <div class="text-center text-gray-500 py-12">
-                    No artworks yet. Click "Add Artwork" to get started!
+                    <p class="mt-4 text-gray-600">{{ auth()->user()->bio ?? 'No bio yet...' }}</p>
                 </div>
             </div>
         </div>
     </div>
-
-
-
-
-
-
-    
 
     <!-- Edit Profile Modal -->
     <div id="editProfileModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
@@ -83,43 +61,38 @@
                 @csrf
                 @method('PUT')
                 
-                <!-- Name Input -->
                 <div class="mb-4">
                     <label class="block text-gray-700 mb-2">Name</label>
                     <input type="text" 
-                        name="name" 
-                        value="{{ auth()->user()->name }}" 
-                        class="w-full px-3 py-2 border rounded-lg"
-                        required>
+                           name="name" 
+                           value="{{ auth()->user()->name }}" 
+                           class="w-full px-3 py-2 border rounded-lg"
+                           required>
                 </div>
 
-                <!-- Location Input -->
                 <div class="mb-4">
                     <label class="block text-gray-700 mb-2">Location</label>
                     <input type="text" 
-                        name="location" 
-                        value="{{ auth()->user()->location }}" 
-                        class="w-full px-3 py-2 border rounded-lg">
+                           name="location" 
+                           value="{{ auth()->user()->location }}" 
+                           class="w-full px-3 py-2 border rounded-lg">
                 </div>
 
-                <!-- Bio Input -->
                 <div class="mb-4">
                     <label class="block text-gray-700 mb-2">Bio</label>
                     <textarea name="bio" 
-                            rows="4" 
-                            class="w-full px-3 py-2 border rounded-lg">{{ auth()->user()->bio }}</textarea>
+                              rows="4" 
+                              class="w-full px-3 py-2 border rounded-lg">{{ auth()->user()->bio }}</textarea>
                 </div>
 
-                <!-- Profile Photo Input -->
                 <div class="mb-4">
                     <label class="block text-gray-700 mb-2">Profile Photo</label>
                     <input type="file" 
-                        name="profile_photo" 
-                        accept="image/*" 
-                        class="w-full px-3 py-2 border rounded-lg">
+                           name="profile_photo" 
+                           accept="image/*" 
+                           class="w-full px-3 py-2 border rounded-lg">
                 </div>
 
-                <!-- Buttons -->
                 <div class="flex justify-end gap-2">
                     <button type="button" 
                             onclick="closeEditModal()" 
@@ -143,9 +116,6 @@
         function closeEditModal() {
             document.getElementById('editProfileModal').classList.add('hidden');
         }
-
-        // Add click event to Edit Profile button
-        document.querySelector('button:contains("Edit Profile")').addEventListener('click', openEditModal);
 
         // Close modal when clicking outside
         document.getElementById('editProfileModal').addEventListener('click', function(e) {
