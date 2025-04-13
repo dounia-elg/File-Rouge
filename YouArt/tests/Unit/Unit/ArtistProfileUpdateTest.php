@@ -18,13 +18,14 @@ class ArtistProfileUpdateTest extends TestCase
     {
         parent::setUp();
         
-        // Create a test user
+        // Create an unverified test user
         $this->user = User::factory()->create([
             'name' => 'Test Artist',
             'role' => 'artist',
             'location' => null,
             'bio' => null,
-            'profile_photo' => null
+            'profile_photo' => null,
+            'email_verified_at' => null
         ]);
     }
 
@@ -61,7 +62,7 @@ class ArtistProfileUpdateTest extends TestCase
     {
         $response = $this->actingAs($this->user)
             ->put(route('artist.profile.update'), [
-                'name' => '',  // Required field is empty
+                'name' => '',
                 'location' => 'New York',
                 'bio' => 'Test bio'
             ]);
@@ -89,5 +90,3 @@ class ArtistProfileUpdateTest extends TestCase
         $this->assertEquals('Test bio content', $this->user->bio);
     }
 }
-
-
