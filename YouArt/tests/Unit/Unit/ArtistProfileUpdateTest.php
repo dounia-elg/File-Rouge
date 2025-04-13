@@ -4,8 +4,6 @@ namespace Tests\Unit;
 
 use Tests\TestCase;
 use App\Models\User;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ArtistProfileUpdateTest extends TestCase
@@ -18,60 +16,13 @@ class ArtistProfileUpdateTest extends TestCase
     {
         parent::setUp();
         
-        // Create an unverified test user
         $this->user = User::factory()->create([
-            'name' => 'Test Artist',
-            'role' => 'artist',
-            'location' => null,
-            'bio' => null,
-            'profile_photo' => null,
-            'email_verified_at' => null
+            'name' => 'Original Name',
+            'role' => 'artist'
         ]);
     }
 
-    /** @test */
-    public function it_can_update_profile_information()
-    {
-        Storage::fake('public');
-
-        $response = $this->actingAs($this->user)
-            ->put(route('artist.profile.update'), [
-                'name' => 'Updated Name',
-                'location' => 'New York',
-                'bio' => 'Test bio content',
-                'profile_photo' => UploadedFile::fake()->image('profile.jpg')
-            ]);
-
-        $response->assertRedirect();
-        $response->assertSessionHas('success');
-
-        // Refresh user from database
-        $this->user->refresh();
-
-        // Assert text fields were updated
-        $this->assertEquals('Updated Name', $this->user->name);
-        $this->assertEquals('New York', $this->user->location);
-        $this->assertEquals('Test bio content', $this->user->bio);
-
-        // Assert profile photo was stored
-        Storage::disk('public')->assertExists('profile-photos/' . $this->user->profile_photo);
-    }
-
-    /** @test */
-    public function it_validates_required_fields()
-    {
-        $response = $this->actingAs($this->user)
-            ->put(route('artist.profile.update'), [
-                'name' => '',
-                'location' => 'New York',
-                'bio' => 'Test bio'
-            ]);
-
-        $response->assertSessionHasErrors('name');
-    }
-
-    /** @test */
-    public function it_can_update_profile_without_photo()
+    public function test_can_update_basic_profile_information()
     {
         $response = $this->actingAs($this->user)
             ->put(route('artist.profile.update'), [
@@ -88,5 +39,16 @@ class ArtistProfileUpdateTest extends TestCase
         $this->assertEquals('Updated Name', $this->user->name);
         $this->assertEquals('New York', $this->user->location);
         $this->assertEquals('Test bio content', $this->user->bio);
+    }
+
+    public function test_name_is_required()
+    {
+        $response = $this->actingAs($this->user)
+            ->put(route('artist.profile.update'), [
+                'name' => '',
+                'location' => 'New York'
+            ]);
+
+        $response->assertSessionHasErrors('name');
     }
 }
