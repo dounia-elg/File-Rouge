@@ -20,22 +20,23 @@ class LoginController extends Controller
             $token = $user->createToken('auth-token')->plainTextToken;
 
             return response()->json([
+                'status' => true,
                 'message' => 'Login successful',
                 'user' => $user,
-                'token' => $token
+                'token' => $token,
+                'intended_url' => session()->get('url.intended', '/dashboard')
             ]);
         }
 
         return response()->json([
+            'status' => false,
             'message' => 'The provided credentials are incorrect.'
         ], 401);
     }
 
-     public function logout(Request $request)
+    public function logout(Request $request)
     {
-        // Revoke all tokens...
         $request->user()->tokens()->delete();
-        
         Auth::guard('web')->logout();
         
         return response()->json([
