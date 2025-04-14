@@ -16,19 +16,25 @@ class LoginController extends Controller
         ]);
 
         if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
-            
-            // Check if user is an artist
-            if (Auth::user()->role === 'artist') {
-                return redirect('/artist/space');
-            }
-            
-            return redirect('/dashboard');
+            $user = Auth::user();
+            $token = $user->createToken('auth-token')->plainTextToken;
+
+            // Determine redirect URL based on user role
+            $redirectUrl = $user->role === 'artist' ? '/artist/space' : '/dashboard';
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Login successful',
+                'user' => $user,
+                'token' => $token,
+                'redirect_url' => $redirectUrl
+            ]);
         }
 
-        return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
-        ]);
+        return response()->json([
+            'status' => false,
+            'message' => 'The provided credentials are incorrect.'
+        ], 401);
     }
 
     public function logout(Request $request)
