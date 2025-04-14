@@ -23,13 +23,15 @@ Route::get('/login', function () {
     return view('auth.login');
 })->name('login');
 
-// Artist Routes 
+/// Artist Routes 
+Route::get('/artist/space', [ArtistController::class, 'index'])->name('artist.space');
+
+
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
-
-    // Artist Space Routes
-    Route::get('/artist/space', [ArtistController::class, 'index'])->name('artist.space');
-    Route::put('/artist/profile', [ArtistController::class, 'updateProfile'])->name('artist.profile.update');
+    
+    Route::put('/artist/profile', [ArtistController::class, 'updateProfile'])
+        ->name('artist.profile.update');
 });
