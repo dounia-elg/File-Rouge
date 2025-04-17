@@ -1,13 +1,20 @@
 <?php
 
-use App\Http\Controllers\Web\RegisterController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ArtistController;
 
-// Registration Routes
-Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
-Route::post('/register', [RegisterController::class, 'register']);
+// Home route
+Route::get('/', function () {
+    return view('welcome');
+})->name('home');
+
+// Authentication Routes
+Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
+Route::post('/register', [AuthController::class, 'register'])->name('register.post');
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+Route::post('/login', [AuthController::class, 'login'])->name('login.post');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Terms and Privacy Routes
 Route::get('/terms', function () {
@@ -18,20 +25,13 @@ Route::get('/privacy', function () {
     return view('pages.privacy');
 })->name('privacy');
 
-
-Route::get('/login', function () {
-    return view('auth.login');
-})->name('login');
-
-/// Artist Routes 
-Route::get('/artist/space', [ArtistController::class, 'index'])->name('artist.space');
-
-
-Route::middleware(['auth:sanctum'])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+// Artist Routes (Protected)
+Route::middleware(['auth'])->group(function () {
+    Route::get('/artist/space', [ArtistController::class, 'space'])->name('artist.space');
+    Route::get('/artist/edit', [ArtistController::class, 'edit'])->name('artist.edit');
+    Route::post('/artist/update', [ArtistController::class, 'update'])->name('artist.update');
     
-    Route::put('/artist/profile', [ArtistController::class, 'updateProfile'])
-        ->name('artist.profile.update');
+    // Artwork Routes
+    Route::get('/artworks/create', [ArtistController::class, 'createArtwork'])->name('artworks.create');
+    Route::post('/artworks/store', [ArtistController::class, 'storeArtwork'])->name('artworks.store');
 });

@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YouArt - Connect with Art</title>
+    <title>{{ config('app.name', 'YouArt') }}</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
+<body class="min-h-screen bg-gray-50">
     <!-- Header/Navigation -->
     <header class="bg-white shadow-md">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
             <div class="flex items-center">
-                <h1 class="text-2xl font-bold text-red-600">YouArt</h1>
+                <a href="{{ route('home') }}" class="text-2xl font-bold text-red-600">YouArt</a>
             </div>
             <nav>
                 <ul class="flex space-x-6">
@@ -21,7 +21,7 @@
                     <li><a href="#" class="text-gray-800 hover:text-red-600">Workshops</a></li>
                     @auth
                         <li>
-                            <form action="{{ route('logout') }}" method="POST">
+                            <form action="{{ route('logout') }}" method="POST" class="inline">
                                 @csrf
                                 <button type="submit" class="text-gray-800 hover:text-red-600">Logout</button>
                             </form>
@@ -38,43 +38,30 @@
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section class="bg-cover bg-center h-96 flex items-center" style="background-image: url('{{ asset('images/gallery-header.jpg') }}');">
-        <div class="container mx-auto px-4 text-center">
-            <div class="bg-black bg-opacity-50 p-8 rounded-lg inline-block">
-                <h2 class="text-4xl font-bold text-white mb-4">Discover, Connect, Create</h2>
-                <p class="text-xl text-white mb-6">Join our community of artists and art enthusiasts</p>
-                <a href="{{ route('register') }}" class="bg-red-600 text-white px-6 py-3 rounded-full font-bold hover:bg-red-700">Get Started</a>
+    <!-- Flash Messages -->
+    @if (session('success'))
+        <div class="bg-green-500 text-white p-4 w-full">
+            <div class="container mx-auto px-4">
+                {{ session('success') }}
             </div>
         </div>
-    </section>
+    @endif
 
-    <!-- Features Section -->
-    <section class="py-16 bg-gray-100">
-        <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-bold text-center mb-12">Why Choose YouArt?</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="bg-white p-6 rounded-lg shadow-md text-center">
-                    <div class="text-red-600 text-4xl mb-4">🎨</div>
-                    <h3 class="text-xl font-semibold mb-2">Showcase Your Art</h3>
-                    <p class="text-gray-600">Create your personal gallery and showcase your artwork to a global audience</p>
-                </div>
-                <div class="bg-white p-6 rounded-lg shadow-md text-center">
-                    <div class="text-red-600 text-4xl mb-4">💰</div>
-                    <h3 class="text-xl font-semibold mb-2">Sell Your Creations</h3>
-                    <p class="text-gray-600">Sell your artwork directly or through auctions with secure payment processing</p>
-                </div>
-                <div class="bg-white p-6 rounded-lg shadow-md text-center">
-                    <div class="text-red-600 text-4xl mb-4">🤝</div>
-                    <h3 class="text-xl font-semibold mb-2">Connect with Others</h3>
-                    <p class="text-gray-600">Build your network, receive feedback, and collaborate with fellow artists</p>
-                </div>
+    @if (session('error'))
+        <div class="bg-red-500 text-white p-4 w-full">
+            <div class="container mx-auto px-4">
+                {{ session('error') }}
             </div>
         </div>
-    </section>
+    @endif
+
+    <!-- Content -->
+    <main>
+        @yield('content')
+    </main>
 
     <!-- Footer -->
-    <footer class="bg-gray-800 text-white py-8">
+    <footer class="bg-gray-800 text-white py-8 mt-auto">
         <div class="container mx-auto px-4">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div>
@@ -103,4 +90,4 @@
         </div>
     </footer>
 </body>
-</html>
+</html> 
