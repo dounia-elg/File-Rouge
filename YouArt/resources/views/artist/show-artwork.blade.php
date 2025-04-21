@@ -64,6 +64,20 @@
                     </div>
                     
                     <div class="mt-6">
+                        <h2 class="text-lg font-semibold mb-2">Details</h2>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <p class="text-sm text-gray-500">Category</p>
+                                <p class="text-gray-700">{{ $artwork->category }}</p>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500">Dimensions</p>
+                                <p class="text-gray-700">{{ $artwork->dimensions }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6">
                         <h2 class="text-lg font-semibold mb-2">Description</h2>
                         <p class="text-gray-700">{{ $artwork->description }}</p>
                     </div>
