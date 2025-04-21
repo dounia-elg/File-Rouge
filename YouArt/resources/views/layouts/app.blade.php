@@ -8,13 +8,11 @@
 </head>
 <body class="min-h-screen bg-gray-50">
     <!-- Header/Navigation -->
-    <header class="bg-white shadow-md">
+    <header class="bg-white shadow-sm">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <div class="flex items-center">
-                <a href="{{ route('home') }}" class="text-2xl font-bold text-red-600">YouArt</a>
-            </div>
+            <a href="{{ route('home') }}" class="text-2xl font-bold text-red-600">YouArt</a>
             <nav>
-                <ul class="flex space-x-6">
+                <ul class="flex items-center space-x-6">
                     <li><a href="{{ route('home') }}" class="text-gray-800 hover:text-red-600">Home</a></li>
                     <li><a href="#" class="text-gray-800 hover:text-red-600">Artworks</a></li>
                     <li><a href="#" class="text-gray-800 hover:text-red-600">Auctions</a></li>
@@ -27,7 +25,14 @@
                             </form>
                         </li>
                         @if(Auth::user()->role === 'artist')
-                            <li><a href="{{ route('artist.space') }}" class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700">My Space</a></li>
+                            <li>
+                                <a href="{{ route('artist.space') }}" >
+                                    @if(Auth::user()->profile_image)
+                                        <img src="{{ asset('storage/' . Auth::user()->profile_image) }}" alt="{{ Auth::user()->name }}" class="w-6 h-6 rounded-full mr-2">
+                                    @endif
+                                    
+                                </a>
+                            </li>
                         @endif
                     @else
                         <li><a href="{{ route('login') }}" class="text-gray-800 hover:text-red-600">Login</a></li>

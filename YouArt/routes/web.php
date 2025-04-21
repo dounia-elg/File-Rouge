@@ -34,4 +34,8 @@ Route::middleware(['auth'])->group(function () {
     // Artwork Routes
     Route::get('/artworks/create', [ArtistController::class, 'createArtwork'])->name('artworks.create');
     Route::post('/artworks/store', [ArtistController::class, 'storeArtwork'])->name('artworks.store');
+    Route::get('/artworks/{artwork}', [ArtistController::class, 'showArtwork'])->name('artworks.show');
+    Route::get('/artworks/{artwork}/edit', [ArtistController::class, 'editArtwork'])->name('artworks.edit');
+    Route::put('/artworks/{artwork}', [ArtistController::class, 'updateArtwork'])->name('artworks.update');
+    Route::delete('/artworks/{artwork}', [ArtistController::class, 'destroyArtwork'])->name('artworks.destroy');
 });

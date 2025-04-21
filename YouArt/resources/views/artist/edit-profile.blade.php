@@ -39,13 +39,18 @@
                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-600">
             </div>
             
-            
+            <div class="mb-4">
+                <label for="position" class="block mb-2 text-sm font-medium text-gray-700">Position/Title</label>
+                <input type="text" name="position" id="position" value="{{ old('position', $user->position) }}" 
+                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-600"
+                       placeholder="e.g. Digital Artist">
+            </div>
             
             <div class="mb-4">
                 <label for="location" class="block mb-2 text-sm font-medium text-gray-700">Location</label>
                 <input type="text" name="location" id="location" value="{{ old('location', $user->location) }}" 
                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-600"
-                       placeholder="e.g. Paris, France">
+                       placeholder="e.g. Safi, Morroco">
             </div>
             
             <div class="mb-6">

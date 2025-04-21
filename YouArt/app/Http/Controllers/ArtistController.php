@@ -116,4 +116,89 @@ class ArtistController extends Controller
         
         return redirect()->route('artist.space')->with('success', 'Artwork added successfully');
     }
+
+    /**
+     * Show the artwork
+     */
+    public function showArtwork(Artwork $artwork)
+    {
+        return view('artist.show-artwork', compact('artwork'));
+    }
+
+    /**
+     * Edit the artwork
+     */
+    public function editArtwork(Artwork $artwork)
+    {
+        // Check if the user is the owner of the artwork
+        if (Auth::id() !== $artwork->user_id) {
+            return redirect()->route('artist.space')->with('error', 'You are not authorized to edit this artwork');
+        }
+
+        return view('artist.edit-artwork', compact('artwork'));
+    }
+
+    /**
+     * Update the artwork
+     */
+    public function updateArtwork(Request $request, Artwork $artwork)
+    {
+        // Check if the user is the owner of the artwork
+        if (Auth::id() !== $artwork->user_id) {
+            return redirect()->route('artist.space')->with('error', 'You are not authorized to edit this artwork');
+        }
+
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'category' => 'required|string|max:255',
+            'price' => 'required|numeric|min:0',
+            'image' => 'nullable|image|max:5048',
+            'description' => 'nullable|string',
+            'is_sold' => 'nullable|boolean',
+        ]);
+
+        // Handle image update
+        if ($request->hasFile('image')) {
+            // Delete old image
+            if ($artwork->image_path && Storage::exists('public/' . $artwork->image_path)) {
+                Storage::delete('public/' . $artwork->image_path);
+            }
+            
+            // Store new image
+            $imagePath = $request->file('image')->store('artwork-images', 'public');
+            $artwork->image_path = $imagePath;
+        }
+
+        // Update artwork properties
+        $artwork->title = $validated['title'];
+        $artwork->category = $validated['category'];
+        $artwork->price = $validated['price'];
+        $artwork->description = $validated['description'];
+        $artwork->is_sold = isset($validated['is_sold']) ? $validated['is_sold'] : false;
+
+        $artwork->save();
+
+        return redirect()->route('artworks.show', $artwork)->with('success', 'Artwork updated successfully');
+    }
+
+    /**
+     * Delete the artwork
+     */
+    public function destroyArtwork(Artwork $artwork)
+    {
+        // Check if the user is the owner of the artwork
+        if (Auth::id() !== $artwork->user_id) {
+            return redirect()->route('artist.space')->with('error', 'You are not authorized to delete this artwork');
+        }
+
+        // Delete the image file
+        if ($artwork->image_path && Storage::exists('public/' . $artwork->image_path)) {
+            Storage::delete('public/' . $artwork->image_path);
+        }
+
+        // Delete the artwork
+        $artwork->delete();
+
+        return redirect()->route('artist.space')->with('success', 'Artwork deleted successfully');
+    }
 }

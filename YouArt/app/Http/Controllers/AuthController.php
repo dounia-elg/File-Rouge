@@ -81,7 +81,9 @@ class AuthController extends Controller
             $request->session()->regenerate();
             
             // Redirect based on role
-            if (Auth::user()->role === 'artist') {
+            if (Auth::user()->role === 'admin') {
+                return redirect()->route('admin.dashboard');
+            } else if (Auth::user()->role === 'artist') {
                 return redirect()->route('artist.space');
             } else {
                 return redirect()->route('home');
