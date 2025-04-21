@@ -57,6 +57,13 @@
             </div>
             
             <div class="mb-4">
+                <label for="dimensions" class="block mb-2 text-sm font-medium text-gray-700">Dimensions</label>
+                <input type="text" name="dimensions" id="dimensions" value="{{ old('dimensions', $artwork->dimensions) }}" required
+                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-600"
+                       placeholder="e.g., 24 x 36 inches">
+            </div>
+            
+            <div class="mb-4">
                 <label for="is_sold" class="block mb-2 text-sm font-medium text-gray-700">Status</label>
                 <select name="is_sold" id="is_sold" required
                         class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-600">
