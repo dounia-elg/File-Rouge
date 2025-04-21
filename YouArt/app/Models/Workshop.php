@@ -20,10 +20,14 @@ class Workshop extends Model
         'date',
         'start_time',
         'end_time',
+        'duration',
         'location',
         'capacity',
         'price',
         'image_path',
+        'video_link',
+        'views',
+        'likes',
         'is_active',
     ];
 
@@ -37,6 +41,8 @@ class Workshop extends Model
         'price' => 'decimal:2',
         'capacity' => 'integer',
         'is_active' => 'boolean',
+        'views' => 'integer',
+        'likes' => 'integer',
     ];
 
     /**
