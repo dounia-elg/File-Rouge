@@ -19,6 +19,7 @@ class Artwork extends Model
         'category',
         'description',
         'price',
+        'dimensions',
         'image_path',
         'views',
         'likes',

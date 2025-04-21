@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ArtistController;
+use App\Http\Controllers\ArtworkController;
 
 // Home route
 Route::get('/', function () {
@@ -27,15 +28,16 @@ Route::get('/privacy', function () {
 
 // Artist Routes (Protected)
 Route::middleware(['auth'])->group(function () {
+    // Artist profile routes
     Route::get('/artist/space', [ArtistController::class, 'space'])->name('artist.space');
     Route::get('/artist/edit', [ArtistController::class, 'edit'])->name('artist.edit');
     Route::post('/artist/update', [ArtistController::class, 'update'])->name('artist.update');
     
     // Artwork Routes
-    Route::get('/artworks/create', [ArtistController::class, 'createArtwork'])->name('artworks.create');
-    Route::post('/artworks/store', [ArtistController::class, 'storeArtwork'])->name('artworks.store');
-    Route::get('/artworks/{artwork}', [ArtistController::class, 'showArtwork'])->name('artworks.show');
-    Route::get('/artworks/{artwork}/edit', [ArtistController::class, 'editArtwork'])->name('artworks.edit');
-    Route::put('/artworks/{artwork}', [ArtistController::class, 'updateArtwork'])->name('artworks.update');
-    Route::delete('/artworks/{artwork}', [ArtistController::class, 'destroyArtwork'])->name('artworks.destroy');
+    Route::get('/artworks/create', [ArtworkController::class, 'create'])->name('artworks.create');
+    Route::post('/artworks/store', [ArtworkController::class, 'store'])->name('artworks.store');
+    Route::get('/artworks/{artwork}', [ArtworkController::class, 'show'])->name('artworks.show');
+    Route::get('/artworks/{artwork}/edit', [ArtworkController::class, 'edit'])->name('artworks.edit');
+    Route::put('/artworks/{artwork}', [ArtworkController::class, 'update'])->name('artworks.update');
+    Route::delete('/artworks/{artwork}', [ArtworkController::class, 'destroy'])->name('artworks.destroy');
 });
