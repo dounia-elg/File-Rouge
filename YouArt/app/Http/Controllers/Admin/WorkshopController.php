@@ -19,7 +19,7 @@ class WorkshopController extends Controller
     }
 
     /**
-     * Show the form for creating a new workshop
+     * Show the form for creating a new works
      */
     public function create()
     {
