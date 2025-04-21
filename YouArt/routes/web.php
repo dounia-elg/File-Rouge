@@ -41,3 +41,22 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/artworks/{artwork}', [ArtworkController::class, 'update'])->name('artworks.update');
     Route::delete('/artworks/{artwork}', [ArtworkController::class, 'destroy'])->name('artworks.destroy');
 });
+
+// Admin Routes (Protected)
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/dashboard', [App\Http\Controllers\Admin\AdminController::class, 'dashboard'])->name('dashboard');
+    
+    // User management
+    Route::get('/users', [App\Http\Controllers\Admin\AdminController::class, 'users'])->name('users');
+    
+    // Artwork management
+    Route::get('/artworks', [App\Http\Controllers\Admin\AdminController::class, 'artworks'])->name('artworks');
+    
+    // Workshop management
+    Route::get('/workshops', [App\Http\Controllers\Admin\WorkshopController::class, 'index'])->name('workshops.index');
+    Route::get('/workshops/create', [App\Http\Controllers\Admin\WorkshopController::class, 'create'])->name('workshops.create');
+    Route::post('/workshops', [App\Http\Controllers\Admin\WorkshopController::class, 'store'])->name('workshops.store');
+    Route::get('/workshops/{workshop}/edit', [App\Http\Controllers\Admin\WorkshopController::class, 'edit'])->name('workshops.edit');
+    Route::put('/workshops/{workshop}', [App\Http\Controllers\Admin\WorkshopController::class, 'update'])->name('workshops.update');
+    Route::delete('/workshops/{workshop}', [App\Http\Controllers\Admin\WorkshopController::class, 'destroy'])->name('workshops.destroy');
+});
