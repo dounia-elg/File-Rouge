@@ -13,6 +13,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        // Call the AdminUserSeeder
+        $this->call(AdminUserSeeder::class);
+        
         // Create a user
         \App\Models\User::create([
             'name' => 'Test User',

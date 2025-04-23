@@ -1,0 +1,22 @@
+# SQLite configuration
+DB_CONNECTION=sqlite
+# DB_DATABASE=database/database.sqlite
+
+# MySQL configuration (uncomment and update if using MySQL)
+# DB_CONNECTION=mysql
+# DB_HOST=127.0.0.1
+# DB_PORT=3306
+# DB_DATABASE=youart
+# DB_USERNAME=root
+# DB_PASSWORD=
+
+# PostgreSQL configuration (uncomment and update if using PostgreSQL)
+# DB_CONNECTION=pgsql
+# DB_HOST=127.0.0.1
+# DB_PORT=5432
+# DB_DATABASE=youart
+# DB_USERNAME=postgres
+# DB_PASSWORD=
+
+# Make sure these lines are in .env with properly formatted text
+# (no special characters or encoding issues) 

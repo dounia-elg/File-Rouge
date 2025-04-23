@@ -82,7 +82,7 @@
                                             {{ $workshop->title }}
                                         </a>
                                     </td>
-                                    <td class="p-2">{{ $workshop->date->format('M d, Y') }}</td>
+                                    <td class="p-2">{{ $workshop->date ? $workshop->date->format('M d, Y') : 'N/A' }}</td>
                                     <td class="p-2">
                                         @if($workshop->is_active)
                                             <span class="px-2 py-1 text-xs bg-green-100 text-green-800 rounded">Active</span>

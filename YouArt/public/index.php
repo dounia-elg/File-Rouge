@@ -1,5 +1,8 @@
 <?php
 
+// Increase maximum execution time to 120 seconds
+ini_set('max_execution_time', 120);
+
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 
