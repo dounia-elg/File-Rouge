@@ -122,8 +122,7 @@
                 <div>
                     <h1 class="text-2xl font-bold mb-2">{{ $workshop->title }}</h1>
                     <div class="flex text-gray-600 text-sm space-x-4">
-                        <span><i class="far fa-calendar-alt mr-1"></i> {{ $workshop->date->format('M d, Y') }}</span>
-                        <span><i class="far fa-clock mr-1"></i> {{ $workshop->duration }} min</span>
+                        <span><i class="fas fa-graduation-cap mr-1"></i> {{ ucfirst($workshop->skill_level) }}</span>
                         <span><i class="far fa-eye mr-1"></i> {{ $workshop->views }} views</span>
                     </div>
                 </div>
