@@ -13,14 +13,14 @@ return new class extends Migration
     {
         Schema::create('workshop_registrations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('workshop_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->enum('status', ['registered', 'attended', 'canceled'])->default('registered');
-            $table->enum('payment_status', ['pending', 'paid', 'refunded'])->default('pending');
+            $table->foreignId('workshop_id')->constrained()->onDelete('cascade');
+            $table->string('status')->default('pending'); // pending, approved, rejected
+            $table->text('notes')->nullable();
             $table->timestamps();
-            
+
             // Prevent duplicate registrations
-            $table->unique(['workshop_id', 'user_id']);
+            $table->unique(['user_id', 'workshop_id']);
         });
     }
 

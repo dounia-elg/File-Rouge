@@ -11,12 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('workshops', function (Blueprint $table) {
-            $table->integer('views')->default(0)->after('image_path');
-            $table->integer('likes')->default(0)->after('views');
-            $table->string('duration')->nullable()->after('end_time');
-            $table->string('video_link')->nullable()->after('image_path');
-        });
+        // Skip this migration since we now include these columns in the base workshops table
+        if (Schema::hasTable('workshops') && !Schema::hasColumn('workshops', 'views')) {
+            Schema::table('workshops', function (Blueprint $table) {
+                $table->integer('views')->default(0);
+                $table->integer('likes')->default(0);
+                $table->integer('duration')->comment('Duration in minutes')->after('end_time')->nullable();
+            });
+        }
     }
 
     /**
@@ -24,11 +26,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('workshops', function (Blueprint $table) {
-            $table->dropColumn('views');
-            $table->dropColumn('likes');
-            $table->dropColumn('duration');
-            $table->dropColumn('video_link');
-        });
+        if (Schema::hasTable('workshops') && Schema::hasColumn('workshops', 'views')) {
+            Schema::table('workshops', function (Blueprint $table) {
+                $table->dropColumn(['views', 'likes', 'duration']);
+            });
+        }
     }
 };

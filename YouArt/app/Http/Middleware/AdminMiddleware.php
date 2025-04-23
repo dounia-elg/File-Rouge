@@ -12,20 +12,18 @@ class AdminMiddleware
     /**
      * Handle an incoming request.
      *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
+     * @return mixed
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // For demonstration purposes, temporarily allow all access
-        // Later you can uncomment the proper admin check
-        
-        // Uncomment this for proper access control
-        /*
-        if (!Auth::check() || Auth::user()->role !== 'admin') {
-            return redirect()->route('home')->with('error', 'You do not have permission to access this area.');
+        // Check if user is authenticated and has admin role
+        if (Auth::check() && Auth::user()->role === 'admin') {
+            return $next($request);
         }
-        */
         
-        return $next($request);
+        // Redirect to home if not admin
+        return redirect()->route('home')->with('error', 'You do not have permission to access this page.');
     }
 }

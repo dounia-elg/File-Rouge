@@ -17,18 +17,10 @@ class Workshop extends Model
     protected $fillable = [
         'title',
         'description',
-        'date',
-        'start_time',
-        'end_time',
-        'duration',
-        'location',
-        'capacity',
-        'price',
-        'image_path',
         'video_link',
+        'skill_level',
         'views',
         'likes',
-        'is_active',
     ];
 
     /**
@@ -37,10 +29,6 @@ class Workshop extends Model
      * @var array<string, string>
      */
     protected $casts = [
-        'date' => 'date',
-        'price' => 'decimal:2',
-        'capacity' => 'integer',
-        'is_active' => 'boolean',
         'views' => 'integer',
         'likes' => 'integer',
     ];

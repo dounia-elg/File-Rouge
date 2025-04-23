@@ -23,25 +23,25 @@
 <body>
     <div class="flex h-screen">
         <!-- Sidebar -->
-        <div class="w-64 bg-gray-800 text-white">
+        <div class="w-64 bg-red-700 text-white">
             <div class="p-4 text-xl font-bold">
                 YouArt Admin
             </div>
             
             <nav class="mt-6">
-                <a href="{{ route('admin.dashboard') }}" class="block py-3 px-4 text-white {{ request()->routeIs('admin.dashboard') ? 'bg-gray-900' : 'hover:bg-gray-700' }}">
+                <a href="{{ route('admin.dashboard') }}" class="block py-3 px-4 text-white {{ request()->routeIs('admin.dashboard') ? 'bg-red-900' : 'hover:bg-red-800' }}">
                     Dashboard
                 </a>
                 
-                <a href="{{ route('admin.workshops.index') }}" class="block py-3 px-4 text-white {{ request()->routeIs('admin.workshops.*') ? 'bg-gray-900' : 'hover:bg-gray-700' }}">
+                <a href="{{ route('admin.workshops.index') }}" class="block py-3 px-4 text-white {{ request()->routeIs('admin.workshops.*') ? 'bg-red-900' : 'hover:bg-red-800' }}">
                     Workshops
                 </a>
                 
-                <a href="{{ route('admin.artworks') }}" class="block py-3 px-4 text-white {{ request()->routeIs('admin.artworks') ? 'bg-gray-900' : 'hover:bg-gray-700' }}">
+                <a href="{{ route('admin.artworks') }}" class="block py-3 px-4 text-white {{ request()->routeIs('admin.artworks') ? 'bg-red-900' : 'hover:bg-red-800' }}">
                     Artworks
                 </a>
                 
-                <a href="{{ route('admin.users') }}" class="block py-3 px-4 text-white {{ request()->routeIs('admin.users') ? 'bg-gray-900' : 'hover:bg-gray-700' }}">
+                <a href="{{ route('admin.users') }}" class="block py-3 px-4 text-white {{ request()->routeIs('admin.users') ? 'bg-red-900' : 'hover:bg-red-800' }}">
                     Users
                 </a>
             </nav>

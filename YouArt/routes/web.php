@@ -5,7 +5,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ArtistController;
 use App\Http\Controllers\ArtworkController;
 use App\Http\Controllers\Admin\AdminController;
-use App\Http\Controllers\Admin\WorkshopController;
+use App\Http\Controllers\Admin\WorkshopController as AdminWorkshopController;
+use App\Http\Controllers\WorkshopController;
 use App\Http\Controllers\AdminDashboardController;
 
 // Home route
@@ -20,6 +21,11 @@ Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
+// Workshop Routes
+Route::get('/workshops', [WorkshopController::class, 'index'])->name('workshops.index');
+Route::get('/workshops/{workshop}', [WorkshopController::class, 'show'])->name('workshops.show');
+Route::post('/workshops/{workshop}/like', [WorkshopController::class, 'like'])->name('workshops.like');
+
 // Terms and Privacy Routes
 Route::get('/terms', function () {
     return view('pages.terms');
@@ -29,14 +35,15 @@ Route::get('/privacy', function () {
     return view('pages.privacy');
 })->name('privacy');
 
-// Artist Routes (Protected)
+// Artist 
+
 Route::middleware(['auth'])->group(function () {
-    // Artist profile routes
+    // Artist profile 
     Route::get('/artist/space', [ArtistController::class, 'space'])->name('artist.space');
     Route::get('/artist/edit', [ArtistController::class, 'edit'])->name('artist.edit');
     Route::post('/artist/update', [ArtistController::class, 'update'])->name('artist.update');
     
-    // Artwork Routes
+    // Artwork 
     Route::get('/artworks/create', [ArtworkController::class, 'create'])->name('artworks.create');
     Route::post('/artworks/store', [ArtworkController::class, 'store'])->name('artworks.store');
     Route::get('/artworks/{artwork}', [ArtworkController::class, 'show'])->name('artworks.show');
@@ -45,27 +52,27 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/artworks/{artwork}', [ArtworkController::class, 'destroy'])->name('artworks.destroy');
 });
 
-// Admin Routes (Direct with no middleware for testing)
+// Admin  
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminDashboardController::class, 'dashboard'])->name('dashboard');
     
-    // User management (temporary route)
+    // User management 
     Route::get('/users', function() {
-        return view('admin.dashboard'); // Temporary redirect to dashboard
+        return view('admin.dashboard'); 
     })->name('users');
     
-    // Artwork management (temporary route)
+    // Artwork management 
     Route::get('/artworks', function() {
-        return view('admin.dashboard'); // Temporary redirect to dashboard
+        return view('admin.dashboard'); 
     })->name('artworks');
     
     // Workshop management
-    Route::get('/workshops', [App\Http\Controllers\Admin\WorkshopController::class, 'index'])->name('workshops.index');
-    Route::get('/workshops/create', [App\Http\Controllers\Admin\WorkshopController::class, 'create'])->name('workshops.create');
-    Route::post('/workshops', [App\Http\Controllers\Admin\WorkshopController::class, 'store'])->name('workshops.store');
-    Route::get('/workshops/{workshop}/edit', [App\Http\Controllers\Admin\WorkshopController::class, 'edit'])->name('workshops.edit');
-    Route::put('/workshops/{workshop}', [App\Http\Controllers\Admin\WorkshopController::class, 'update'])->name('workshops.update');
-    Route::delete('/workshops/{workshop}', [App\Http\Controllers\Admin\WorkshopController::class, 'destroy'])->name('workshops.destroy');
+    Route::get('/workshops', [AdminWorkshopController::class, 'index'])->name('workshops.index');
+    Route::get('/workshops/create', [AdminWorkshopController::class, 'create'])->name('workshops.create');
+    Route::post('/workshops', [AdminWorkshopController::class, 'store'])->name('workshops.store');
+    Route::get('/workshops/{workshop}/edit', [AdminWorkshopController::class, 'edit'])->name('workshops.edit');
+    Route::put('/workshops/{workshop}', [AdminWorkshopController::class, 'update'])->name('workshops.update');
+    Route::delete('/workshops/{workshop}', [AdminWorkshopController::class, 'destroy'])->name('workshops.destroy');
 });
 
 // Test route

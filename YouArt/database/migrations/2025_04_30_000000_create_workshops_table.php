@@ -15,14 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('description');
-            $table->date('date');
-            $table->string('start_time');
-            $table->string('end_time');
-            $table->string('location');
-            $table->integer('capacity')->default(20);
-            $table->decimal('price', 10, 2)->default(0);
-            $table->string('image_path')->nullable();
-            $table->boolean('is_active')->default(true);
+            $table->string('video_link');
+            $table->string('skill_level')->default('beginner'); // beginner, intermediate, advanced
+            $table->integer('views')->default(0);
+            $table->integer('likes')->default(0);
             $table->timestamps();
         });
     }
