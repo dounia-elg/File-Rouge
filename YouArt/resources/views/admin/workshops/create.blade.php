@@ -12,7 +12,7 @@
     </div>
 
     <div class="bg-white rounded-lg shadow-md p-6">
-        <form action="{{ route('admin.workshops.store') }}" method="POST">
+        <form action="{{ route('admin.workshops.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
             <div class="mb-4">
@@ -47,6 +47,38 @@
             </div>
 
             <div class="mb-4">
+                <label for="thumbnail_image" class="block text-gray-700 font-medium mb-2">Thumbnail Image</label>
+                <input type="file" name="thumbnail_image" id="thumbnail_image" 
+                    class="w-full border-gray-300 rounded-md shadow-sm focus:border-red-500 focus:ring focus:ring-red-200">
+                <p class="text-gray-500 text-sm mt-1">Recommended size: 16:9 ratio, minimum 720px width</p>
+                @error('thumbnail_image')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                    <label for="date" class="block text-gray-700 font-medium mb-2">Workshop Date</label>
+                    <input type="datetime-local" name="date" id="date" value="{{ old('date') }}" 
+                        class="w-full border-gray-300 rounded-md shadow-sm focus:border-red-500 focus:ring focus:ring-red-200" 
+                        required>
+                    @error('date')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div>
+                    <label for="duration" class="block text-gray-700 font-medium mb-2">Duration (minutes)</label>
+                    <input type="number" name="duration" id="duration" value="{{ old('duration') }}" 
+                        class="w-full border-gray-300 rounded-md shadow-sm focus:border-red-500 focus:ring focus:ring-red-200" 
+                        min="1" required>
+                    @error('duration')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+            </div>
+
+            <div class="mb-4">
                 <label for="skill_level" class="block text-gray-700 font-medium mb-2">Skill Level</label>
                 <select name="skill_level" id="skill_level" 
                     class="w-full border-gray-300 rounded-md shadow-sm focus:border-red-500 focus:ring focus:ring-red-200" 
@@ -60,8 +92,24 @@
                 @enderror
             </div>
 
+            <div class="flex flex-col md:flex-row gap-4 mb-6">
+                <div class="flex items-center">
+                    <input type="checkbox" name="is_active" id="is_active" 
+                        class="rounded border-gray-300 text-red-500 focus:border-red-500 focus:ring focus:ring-red-200" 
+                        {{ old('is_active', true) ? 'checked' : '' }}>
+                    <label for="is_active" class="ml-2 text-gray-700">Active (visible to users)</label>
+                </div>
+
+                <div class="flex items-center">
+                    <input type="checkbox" name="is_featured" id="is_featured" 
+                        class="rounded border-gray-300 text-red-500 focus:border-red-500 focus:ring focus:ring-red-200" 
+                        {{ old('is_featured') ? 'checked' : '' }}>
+                    <label for="is_featured" class="ml-2 text-gray-700">Featured (shown on homepage)</label>
+                </div>
+            </div>
+
             <div class="flex justify-end">
-                <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-md">
+                <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">
                     Create Workshop
                 </button>
             </div>

@@ -12,7 +12,7 @@
     </div>
 
     <div class="bg-white rounded-lg shadow-md p-6">
-        <form action="{{ route('admin.workshops.update', $workshop) }}" method="POST">
+        <form action="{{ route('admin.workshops.update', $workshop) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
 
@@ -41,10 +41,48 @@
                 <input type="text" name="video_link" id="video_link" value="{{ old('video_link', $workshop->video_link) }}" 
                     class="w-full border-gray-300 rounded-md shadow-sm focus:border-red-500 focus:ring focus:ring-red-200" 
                     required>
-                <p class="text-gray-500 text-sm mt-1">Enter YouTube or Vimeo link for the workshop</p>
                 @error('video_link')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @enderror
+            </div>
+
+            <div class="mb-4">
+                <label for="thumbnail_image" class="block text-gray-700 font-medium mb-2">Thumbnail Image</label>
+                @if ($workshop->thumbnail_image)
+                    <div class="mb-2">
+                        <img src="{{ asset('storage/' . $workshop->thumbnail_image) }}" alt="{{ $workshop->title }}" 
+                            class="h-32 w-auto object-cover rounded">
+                    </div>
+                @endif
+                <input type="file" name="thumbnail_image" id="thumbnail_image" 
+                    class="w-full border-gray-300 rounded-md shadow-sm focus:border-red-500 focus:ring focus:ring-red-200">
+                <p class="text-gray-500 text-sm mt-1">Recommended size: 16:9 ratio, minimum 720px width</p>
+                @error('thumbnail_image')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                    <label for="date" class="block text-gray-700 font-medium mb-2">Workshop Date</label>
+                    <input type="datetime-local" name="date" id="date" 
+                        value="{{ old('date', $workshop->date ? $workshop->date->format('Y-m-d\TH:i') : '') }}" 
+                        class="w-full border-gray-300 rounded-md shadow-sm focus:border-red-500 focus:ring focus:ring-red-200" 
+                        required>
+                    @error('date')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div>
+                    <label for="duration" class="block text-gray-700 font-medium mb-2">Duration (minutes)</label>
+                    <input type="number" name="duration" id="duration" value="{{ old('duration', $workshop->duration) }}" 
+                        class="w-full border-gray-300 rounded-md shadow-sm focus:border-red-500 focus:ring focus:ring-red-200" 
+                        min="1" required>
+                    @error('duration')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
             </div>
 
             <div class="mb-4">
@@ -61,8 +99,24 @@
                 @enderror
             </div>
 
+            <div class="flex flex-col md:flex-row gap-4 mb-6">
+                <div class="flex items-center">
+                    <input type="checkbox" name="is_active" id="is_active" 
+                        class="rounded border-gray-300 text-red-500 focus:border-red-500 focus:ring focus:ring-red-200" 
+                        {{ old('is_active', $workshop->is_active) ? 'checked' : '' }}>
+                    <label for="is_active" class="ml-2 text-gray-700">Active (visible to users)</label>
+                </div>
+
+                <div class="flex items-center">
+                    <input type="checkbox" name="is_featured" id="is_featured" 
+                        class="rounded border-gray-300 text-red-500 focus:border-red-500 focus:ring focus:ring-red-200" 
+                        {{ old('is_featured', $workshop->is_featured) ? 'checked' : '' }}>
+                    <label for="is_featured" class="ml-2 text-gray-700">Featured (shown on homepage)</label>
+                </div>
+            </div>
+
             <div class="flex justify-end">
-                <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-md">
+                <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">
                     Update Workshop
                 </button>
             </div>

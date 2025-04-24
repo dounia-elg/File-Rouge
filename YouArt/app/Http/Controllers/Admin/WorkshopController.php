@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Workshop;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class WorkshopController extends Controller
 {
@@ -15,7 +16,8 @@ class WorkshopController extends Controller
      */
     public function __construct()
     {
-        $this->middleware(['auth', 'admin']);
+        // Middleware should be applied in routes file instead of constructor
+        // or use parent middleware methods if Controller class has them
     }
 
     /**
@@ -52,7 +54,22 @@ class WorkshopController extends Controller
             'description' => 'required|string',
             'video_link' => 'required|string|max:255',
             'skill_level' => 'required|string|in:beginner,intermediate,advanced',
+            'thumbnail_image' => 'nullable|image|max:2048',
+            'date' => 'required|date',
+            'duration' => 'required|integer|min:1',
+            'is_active' => 'boolean',
+            'is_featured' => 'boolean',
         ]);
+        
+        // Handle is_active and is_featured checkboxes
+        $validated['is_active'] = $request->has('is_active');
+        $validated['is_featured'] = $request->has('is_featured');
+        
+        // Handle thumbnail image upload
+        if ($request->hasFile('thumbnail_image')) {
+            $path = $request->file('thumbnail_image')->store('workshops', 'public');
+            $validated['thumbnail_image'] = $path;
+        }
 
         Workshop::create($validated);
 
@@ -85,7 +102,27 @@ class WorkshopController extends Controller
             'description' => 'required|string',
             'video_link' => 'required|string|max:255',
             'skill_level' => 'required|string|in:beginner,intermediate,advanced',
+            'thumbnail_image' => 'nullable|image|max:2048',
+            'date' => 'required|date',
+            'duration' => 'required|integer|min:1',
+            'is_active' => 'boolean',
+            'is_featured' => 'boolean',
         ]);
+        
+        // Handle is_active and is_featured checkboxes
+        $validated['is_active'] = $request->has('is_active');
+        $validated['is_featured'] = $request->has('is_featured');
+        
+        // Handle thumbnail image upload
+        if ($request->hasFile('thumbnail_image')) {
+            // Delete old image if exists
+            if ($workshop->thumbnail_image) {
+                Storage::disk('public')->delete($workshop->thumbnail_image);
+            }
+            
+            $path = $request->file('thumbnail_image')->store('workshops', 'public');
+            $validated['thumbnail_image'] = $path;
+        }
 
         $workshop->update($validated);
 
@@ -101,6 +138,11 @@ class WorkshopController extends Controller
      */
     public function destroy(Workshop $workshop)
     {
+        // Delete thumbnail if exists
+        if ($workshop->thumbnail_image) {
+            Storage::disk('public')->delete($workshop->thumbnail_image);
+        }
+        
         $workshop->delete();
         
         return redirect()->route('admin.workshops.index')

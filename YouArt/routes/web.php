@@ -8,10 +8,18 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\WorkshopController as AdminWorkshopController;
 use App\Http\Controllers\WorkshopController;
 use App\Http\Controllers\AdminDashboardController;
+use App\Http\Middleware\AdminMiddleware;
+use App\Models\Workshop;
 
 // Home route
 Route::get('/', function () {
-    return view('welcome');
+    $featuredWorkshops = Workshop::where('is_active', true)
+        ->where('is_featured', true)
+        ->orderBy('date', 'desc')
+        ->take(3)
+        ->get();
+    
+    return view('welcome', compact('featuredWorkshops'));
 })->name('home');
 
 // Authentication Routes
@@ -53,7 +61,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 // Admin  
-Route::prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', AdminMiddleware::class])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminDashboardController::class, 'dashboard'])->name('dashboard');
     
     // User management 
