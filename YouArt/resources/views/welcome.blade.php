@@ -74,7 +74,7 @@
         </div>
     </section>
 
-    <!-- Featured Workshops Section -->
+    <!-- Featured Workshops Sectio -->
     <section class="py-16">
         <div class="container mx-auto px-4">
             <div class="flex justify-between items-center mb-8">
