@@ -13,9 +13,7 @@ use App\Models\Workshop;
 
 // Home route
 Route::get('/', function () {
-    $featuredWorkshops = Workshop::where('is_active', true)
-        ->where('is_featured', true)
-        ->orderBy('date', 'desc')
+    $featuredWorkshops = Workshop::orderBy('id', 'desc')
         ->take(3)
         ->get();
     
@@ -65,9 +63,10 @@ Route::middleware(['auth', AdminMiddleware::class])->prefix('admin')->name('admi
     Route::get('/dashboard', [AdminDashboardController::class, 'dashboard'])->name('dashboard');
     
     // User management 
-    Route::get('/users', function() {
-        return view('admin.dashboard'); 
-    })->name('users');
+    Route::get('/users', [AdminController::class, 'users'])->name('users.index');
+    Route::post('/users/{user}/activate', [AdminController::class, 'activateUser'])->name('users.activate');
+    Route::post('/users/{user}/suspend', [AdminController::class, 'suspendUser'])->name('users.suspend');
+    Route::delete('/users/{user}/delete', [AdminController::class, 'deleteUser'])->name('users.delete');
     
     // Artwork management 
     Route::get('/artworks', function() {

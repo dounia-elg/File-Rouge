@@ -46,4 +46,41 @@ class AdminController extends Controller
         $artworks = Artwork::with('user')->latest()->get();
         return view('admin.artworks.index', compact('artworks'));
     }
+    
+    /**
+     * Activate a user account
+     */
+    public function activateUser(User $user)
+    {
+        $user->is_active = true;
+        $user->save();
+        
+        return redirect()->back()->with('success', 'User activated successfully.');
+    }
+    
+    /**
+     * Suspend a user account
+     */
+    public function suspendUser(User $user)
+    {
+        $user->is_active = false;
+        $user->save();
+        
+        return redirect()->back()->with('success', 'User suspended successfully.');
+    }
+    
+    /**
+     * Delete a user account
+     */
+    public function deleteUser(User $user)
+    {
+        // Prevent admin from deleting themselves
+        if (auth()->id() === $user->id) {
+            return redirect()->back()->with('error', 'You cannot delete your own account.');
+        }
+        
+        $user->delete();
+        
+        return redirect()->back()->with('success', 'User deleted successfully.');
+    }
 }
