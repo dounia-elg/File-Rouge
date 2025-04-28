@@ -12,8 +12,7 @@ class WorkshopController extends Controller
      */
     public function index()
     {
-        $workshops = Workshop::where('is_active', true)
-                            ->orderBy('date', 'desc')
+        $workshops = Workshop::orderBy('id', 'desc')
                             ->paginate(9);
         
         return view('workshops.index', compact('workshops'));

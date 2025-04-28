@@ -1,12 +1,10 @@
 @extends('layouts.app')
 
-@section('title', 'Featured Workshops')
-
-/**/
+@section('title', 'Art Workshops')
 
 @section('content')
 <div class="container mx-auto px-4 py-8">
-    <h1 class="text-3xl font-bold mb-8">Featured Workshops</h1>
+    <h1 class="text-3xl font-bold mb-8">Art Workshops</h1>
     
     @if($workshops->isEmpty())
         <div class="text-center py-8">

@@ -41,7 +41,7 @@
                     Artworks
                 </a>
                 
-                <a href="{{ route('admin.users') }}" class="block py-3 px-4 text-white {{ request()->routeIs('admin.users') ? 'bg-red-900' : 'hover:bg-red-800' }}">
+                <a href="{{ route('admin.users.index') }}" class="block py-3 px-4 text-white {{ request()->routeIs('admin.users.*') ? 'bg-red-900' : 'hover:bg-red-800' }}">
                     Users
                 </a>
             </nav>

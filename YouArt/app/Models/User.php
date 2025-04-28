@@ -26,6 +26,7 @@ class User extends Authenticatable
         'position',
         'profile_image',
         'followers',
+        'is_active',
     ];
 
     /**
