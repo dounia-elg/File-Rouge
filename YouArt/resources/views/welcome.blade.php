@@ -5,274 +5,402 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>YouArt - Connect with Art</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dark: '#0a0a0a',
+                        accent: '#d4a373',
+                    },
+                    fontFamily: {
+                        display: ['Cormorant Garamond', 'serif'],
+                        sans: ['Montserrat', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Montserrat', sans-serif;
+            background-color: #0a0a0a;
+            color: #f5f5f5;
+            overflow-x: hidden;
         }
-        .serif {
+        .font-display {
             font-family: 'Cormorant Garamond', serif;
         }
-        .quote {
+        .item {
+            transition: all 0.5s ease;
+        }
+        .item:hover {
+            transform: translateY(-10px);
+        }
+        .scattered-item {
             position: relative;
         }
-        .quote::before, .quote::after {
-            content: '"';
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 4rem;
-            opacity: 0.2;
+        .art-piece {
+            transition: transform 0.7s ease, box-shadow 0.7s ease;
+        }
+        .art-piece:hover {
+            transform: scale(1.03);
+            box-shadow: 0 25px 50px -12px rgba(255, 255, 255, 0.1);
+        }
+        .rtl {
+            direction: rtl;
+        }
+        .fade-in {
+            animation: fadeIn 1.5s ease-in;
+        }
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        .float {
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+        .overlap {
+            margin-top: -5rem;
+        }
+        .nav-link {
+            position: relative;
+            display: inline-block;
+        }
+        .nav-link::after {
+            content: '';
             position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: -2px;
+            left: 0;
+            background-color: #d4a373;
+            transition: width 0.3s ease;
         }
-        .quote::before {
-            top: -2rem;
-            left: -1rem;
-        }
-        .quote::after {
-            bottom: -4rem;
-            right: -1rem;
-        }
-        .art-card {
-            transition: transform 0.3s ease;
-        }
-        .art-card:hover {
-            transform: translateY(-5px);
-        }
-        .parallax {
-            background-attachment: fixed;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;
+        .nav-link:hover::after {
+            width: 100%;
         }
     </style>
     </head>
-<body class="bg-gray-50">
-    <!-- Header/Navigation -->
-    <header class="bg-white shadow-md">
-        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <div class="flex items-center">
-                <h1 class="text-2xl font-bold text-red-600">YouArt</h1>
-            </div>
-            <nav>
-                <ul class="flex space-x-6">
-                    <li><a href="{{ route('home') }}" class="text-gray-800 hover:text-red-600">Home</a></li>
-                    <li><a href="#" class="text-gray-800 hover:text-red-600">Artworks</a></li>
-                    <li><a href="#" class="text-gray-800 hover:text-red-600">Auctions</a></li>
-                    <li><a href="{{ route('workshops.index') }}" class="text-gray-800 hover:text-red-600">Workshops</a></li>
-                    @auth
-                        <li>
-                            <form action="{{ route('logout') }}" method="POST">
-                                @csrf
-                                <button type="submit" class="text-gray-800 hover:text-red-600">Logout</button>
-                            </form>
-                        </li>
-                        @if(Auth::user()->role === 'artist')
-                            <li><a href="{{ route('artist.space') }}" class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700">My Space</a></li>
-                        @endif
-                    @else
-                        <li><a href="{{ route('login') }}" class="text-gray-800 hover:text-red-600">Login</a></li>
-                        <li><a href="{{ route('register') }}" class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700">Register</a></li>
-                    @endauth
-                </ul>
+<body class="bg-dark text-white min-h-screen">
+    <!-- Minimal Header -->
+    <header class="fixed w-full z-50 bg-dark bg-opacity-80 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="{{ route('home') }}" class="text-2xl font-display font-light tracking-widest text-white">You<span class="text-accent">Art</span></a>
+            <nav class="hidden md:flex space-x-8">
+                <a href="{{ route('home') }}" class="nav-link text-sm text-white font-light hover:text-accent">Home</a>
+                <a href="#" class="nav-link text-sm text-white font-light hover:text-accent">Exhibitions</a>
+                <a href="#" class="nav-link text-sm text-white font-light hover:text-accent">Collections</a>
+                <a href="{{ route('workshops.index') }}" class="nav-link text-sm text-white font-light hover:text-accent">Workshops</a>
+                @auth
+                    @if(Auth::user()->role === 'artist')
+                        <a href="{{ route('artist.space') }}" class="nav-link text-sm text-white font-light hover:text-accent">Artist Space</a>
+                    @endif
+                    <form action="{{ route('logout') }}" method="POST" class="inline">
+                        @csrf
+                        <button type="submit" class="nav-link text-sm text-white font-light hover:text-accent bg-transparent border-0">Logout</button>
+                    </form>
+                @else
+                    <a href="{{ route('login') }}" class="nav-link text-sm text-white font-light hover:text-accent">Login</a>
+                    <a href="{{ route('register') }}" class="nav-link text-sm text-accent font-light hover:text-white">Register</a>
+                @endauth
             </nav>
+            <button class="md:hidden text-white focus:outline-none">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
         </div>
     </header>
 
-    <!-- Hero Section with Inspirational Quote -->
-    <section class="relative h-screen bg-cover bg-center flex items-center" style="background-image: url('https://images.unsplash.com/photo-1513364776144-60967b0f800f?ixlib=rb-1.2.1&auto=format&fit=crop&w=2070&q=80');">
-        <div class="absolute inset-0 bg-black opacity-50"></div>
-        <div class="container mx-auto px-4 text-center relative z-10">
-            <div class="max-w-3xl mx-auto">
-                <h2 class="serif text-5xl font-bold text-white mb-6 leading-tight">Art is the stored honey of the human soul</h2>
-                <p class="text-xl text-white mb-4 italic">- Theodore Dreiser</p>
-                <p class="text-xl text-white mb-8">Discover the beauty of creation in our global community of artists</p>
-                <a href="{{ route('register') }}" class="bg-red-600 text-white px-8 py-4 rounded-full font-bold hover:bg-red-700 inline-block transition duration-300 transform hover:scale-105">Begin Your Artistic Journey</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Artist Quote Carousel -->
-    <section class="py-20 bg-white">
-        <div class="container mx-auto px-4">
-            <div class="max-w-4xl mx-auto">
-                <div class="quote serif text-center px-8 py-4 text-2xl italic text-gray-700 relative">
-                    <p class="mb-4">"Every artist dips his brush in his own soul, and paints his own nature into his pictures."</p>
-                    <p class="text-right font-semibold text-xl">— Henry Ward Beecher</p>
+    <!-- Featured Exhibition in Minimal Style -->
+    <section class="pt-32 pb-16 px-6">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div class="order-2 md:order-1">
+                    <h1 class="font-display text-4xl md:text-6xl font-light mb-6 leading-tight">Classical <br>Masterpieces <br>Reimagined</h1>
+                    <div class="mb-10">
+                        <p class="text-sm text-gray-300 mb-6 max-w-md">Discover how the legacy of classical art continues to inspire contemporary creation through our curated collection.</p>
+                        <a href="#exhibitions" class="inline-block px-6 py-2 border border-accent text-accent text-sm tracking-widest hover:bg-accent hover:text-black transition duration-300">Explore</a>
+                    </div>
+                </div>
+                <div class="order-1 md:order-2">
+                    <img src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?ixlib=rb-1.2.1&auto=format&fit=crop&w=2070&q=80" alt="Starry Night" class="w-full h-96 object-cover">
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Art Gallery Showcase -->
-    <section class="py-16 bg-gray-100">
-        <div class="container mx-auto px-4">
-            <h2 class="serif text-4xl font-bold text-center mb-4">A Canvas for Every Story</h2>
-            <p class="text-center text-gray-600 mb-12 max-w-3xl mx-auto">From classical masterpieces to contemporary expressions, art speaks in the language of emotions that transcends words.</p>
+    <!-- Scattered Exhibition Section -->
+    <section id="exhibitions" class="py-20 relative">
+        <h2 class="font-display text-2xl md:text-3xl text-center mb-16">Exhibitions</h2>
+
+        <div class="max-w-7xl mx-auto grid grid-cols-12 gap-4">
+            <!-- Item 1 - Large Right -->
+            <div class="col-span-12 md:col-span-8 md:col-start-5 mb-24 art-piece fade-in">
+                <img src="https://images.unsplash.com/photo-1579783483458-83d02161294e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1056&q=80" alt="Art Exhibition" class="w-full h-80 object-cover">
+                <div class="mt-4 flex justify-between items-start">
+                    <div>
+                        <h3 class="font-display text-2xl text-accent">European Classics</h3>
+                        <p class="text-xs text-gray-400">On display until Sept 30</p>
+                    </div>
+                    <span class="text-xs text-gray-400">01</span>
+                </div>
+            </div>
+
+            <!-- Arabic Quote Top Left -->
+            <div class="col-span-12 md:col-span-4 md:col-start-1 -mt-20 mb-16 scattered-item rtl fade-in float">
+                <p class="font-display text-xl text-right text-gray-300 italic">
+                    "الفن هو حوار بين الروح والعالم"
+                </p>
+                <p class="text-xs text-right text-gray-500 mt-2">- فريدا كالو</p>
+            </div>
+
+            <!-- Item 2 - Middle Left -->
+            <div class="col-span-12 md:col-span-6 mb-16 art-piece fade-in">
+                <div class="flex flex-col md:flex-row gap-6">
+                    <img src="https://images.unsplash.com/photo-1547891654-e66ed7ebb968?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Portrait" class="w-full md:w-1/2 h-64 object-cover">
+                    <div class="md:w-1/2 flex flex-col justify-between">
+                        <div>
+                            <h3 class="font-display text-2xl text-accent">Contemporary Portraits</h3>
+                            <p class="text-xs text-gray-400 mb-4">New collection</p>
+                        </div>
+                        <span class="text-xs text-gray-400">02</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- French Quote Right -->
+            <div class="col-span-12 md:col-span-4 md:col-start-9 md:-mt-10 mb-16 scattered-item fade-in float">
+                <p class="font-display text-xl text-gray-300 italic">
+                    "L'art lave notre âme de la poussière du quotidien"
+                </p>
+                <p class="text-xs text-gray-500 mt-2">- Pablo Picasso</p>
+            </div>
+
+            <!-- Item 3 - Large Left -->
+            <div class="col-span-12 md:col-span-8 mb-24 art-piece fade-in">
+                <img src="https://images.unsplash.com/photo-1578926288207-32356a2b8838?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80" alt="Abstract Art" class="w-full h-96 object-cover">
+                <div class="mt-4 flex justify-between items-start">
+                    <div>
+                        <h3 class="font-display text-2xl text-accent">Abstract Expressions</h3>
+                        <p class="text-xs text-gray-400">Upcoming</p>
+                    </div>
+                    <span class="text-xs text-gray-400">03</span>
+                </div>
+            </div>
+
+            <!-- Japanese Quote Bottom -->
+            <div class="col-span-12 md:col-span-4 md:col-start-7 mb-16 scattered-item fade-in float">
+                <p class="font-display text-xl text-gray-300 italic">
+                    "芸術は人生に不必要なもののうち、最も必要なものである"
+                </p>
+                <p class="text-xs text-gray-500 mt-2">- 上村松園</p>
+            </div>
+
+            <!-- Item 4 - Small Right -->
+            <div class="col-span-12 md:col-span-5 md:col-start-8 mb-16 art-piece fade-in">
+                <img src="https://images.unsplash.com/photo-1545989253-02cc26577f88?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Sculpture" class="w-full h-72 object-cover">
+                <div class="mt-4 flex justify-between items-start">
+                    <div>
+                        <h3 class="font-display text-2xl text-accent">Modern Sculpture</h3>
+                        <p class="text-xs text-gray-400">Limited exhibition</p>
+                    </div>
+                    <span class="text-xs text-gray-400">04</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="py-20 px-6 bg-black">
+        <div class="max-w-7xl mx-auto mb-16">
+            <div class="md:flex justify-between items-end">
+                <h2 class="font-display text-2xl md:text-3xl mb-6 md:mb-0">The Art Gallery of <br>San Francisco</h2>
+                <p class="text-gray-400 text-sm max-w-md">A temple to artistic expression where tradition meets innovation in carefully curated exhibitions that challenge perception.</p>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto grid grid-cols-12 gap-8">
+            <div class="col-span-12 md:col-span-7 mb-8">
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <img src="https://images.unsplash.com/photo-1577720643272-265a9f9acbd3?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Gallery Art" class="w-full h-48 object-cover mb-2">
+                        <img src="https://images.unsplash.com/photo-1577083552792-a0d398a513ed?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Gallery Art" class="w-full h-60 object-cover">
+                    </div>
+                    <div>
+                        <img src="https://images.unsplash.com/photo-1577083552453-2b0595ba3c75?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Gallery Art" class="w-full h-60 object-cover mb-2">
+                        <img src="https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Gallery Art" class="w-full h-48 object-cover">
+                    </div>
+                </div>
+            </div>
+            <div class="col-span-12 md:col-span-5 flex flex-col justify-center">
+                <p class="mb-8 text-sm text-gray-300">The gallery exhibits a diverse collection spanning centuries of artistic evolution, from Renaissance masterpieces to cutting-edge contemporary works.</p>
+                <p class="mb-8 text-sm text-gray-300">Our rotating exhibitions ensure every visit offers a new perspective on the transformative power of visual expression.</p>
+                <div class="rtl mb-8">
+                    <p class="text-sm text-gray-300 text-right">
+                        المتحف يعرض تشكيلة متنوعة تمتد عبر قرون من التطور الفني، من روائع عصر النهضة إلى الأعمال المعاصرة المتطورة
+                    </p>
+                </div>
+                <a href="#" class="inline-block px-6 py-2 border border-accent text-accent text-sm tracking-widest hover:bg-accent hover:text-black transition duration-300 self-start">Visit Gallery</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Events Section -->
+    <section class="py-20 px-6">
+        <h2 class="font-display text-2xl md:text-3xl text-center mb-20">Events & Programs</h2>
+
+        <div class="max-w-6xl mx-auto grid grid-cols-12 gap-y-16">
+            <!-- Event 1 -->
+            <div class="col-span-12 md:col-span-8 md:col-start-1 flex flex-col md:flex-row gap-6 items-center fade-in">
+                <div class="md:w-1/2">
+                    <img src="https://images.unsplash.com/photo-1515169067868-5387ec356754?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Summer Studios" class="w-full h-72 object-cover">
+                </div>
+                <div class="md:w-1/2">
+                    <span class="text-xs text-gray-400">June 15 - August 30</span>
+                    <h3 class="font-display text-2xl text-accent mt-2 mb-4">Summer Studios: Art Exploration</h3>
+                    <p class="text-sm text-gray-300 mb-4">Immerse yourself in creative processes guided by master artists in our summer-long workshop series.</p>
+                    <a href="#" class="text-xs text-accent border-b border-accent pb-1 hover:text-white hover:border-white transition duration-300">Learn more</a>
+                </div>
+            </div>
+
+            <!-- Russian Quote -->
+            <div class="col-span-12 md:col-span-4 md:col-start-9 scattered-item fade-in float">
+                <p class="font-display text-xl text-gray-300 italic">
+                    "Искусство — это не что иное, как созерцание мира в состоянии благодати"
+                </p>
+                <p class="text-xs text-gray-500 mt-2">- Герман Гессе</p>
+            </div>
+
+            <!-- Event 2 -->
+            <div class="col-span-12 md:col-span-8 md:col-start-5 flex flex-col md:flex-row-reverse gap-6 items-center fade-in">
+                <div class="md:w-1/2">
+                    <img src="https://images.unsplash.com/photo-1459908676235-d5f02a50184b?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Wine & Canvas" class="w-full h-72 object-cover">
+                </div>
+                <div class="md:w-1/2 text-right">
+                    <span class="text-xs text-gray-400">Every Friday, 7PM</span>
+                    <h3 class="font-display text-2xl text-accent mt-2 mb-4">Wine & Canvas: Adult Workshop</h3>
+                    <p class="text-sm text-gray-300 mb-4">Unwind with a glass of fine wine while creating your own masterpiece in this social painting experience.</p>
+                    <a href="#" class="text-xs text-accent border-b border-accent pb-1 hover:text-white hover:border-white transition duration-300">Learn more</a>
+                </div>
+            </div>
+
+            <!-- Spanish Quote -->
+            <div class="col-span-12 md:col-span-4 md:col-start-1 scattered-item fade-in float">
+                <p class="font-display text-xl text-gray-300 italic">
+                    "El arte es la mentira que nos permite comprender la verdad"
+                </p>
+                <p class="text-xs text-gray-500 mt-2">- Pablo Picasso</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Collection -->
+    <section class="py-20 px-6 bg-gradient-to-b from-dark to-black">
+        <div class="max-w-6xl mx-auto mb-16">
+            <h2 class="font-display text-2xl md:text-3xl mb-2">Featured Collection</h2>
+            <p class="text-sm text-gray-400 mb-10">Impressionist Masterpieces from the 19th Century</p>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="art-card bg-white rounded-lg overflow-hidden shadow-lg">
-                    <img src="https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Classical Art" class="w-full h-64 object-cover">
-                    <div class="p-6">
-                        <h3 class="serif text-2xl font-bold mb-2">Classical Beauty</h3>
-                        <p class="text-gray-600">The timeless elegance of classical techniques continues to inspire generations of artists seeking perfection in form and composition.</p>
+            <div class="relative">
+                <div class="grid grid-cols-12 gap-4">
+                    <div class="col-span-12 md:col-span-7">
+                        <img src="https://images.unsplash.com/photo-1579541592825-712979624ece?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Impressionist Art" class="w-full h-96 object-cover">
                     </div>
-                </div>
-                
-                <div class="art-card bg-white rounded-lg overflow-hidden shadow-lg">
-                    <img src="https://images.unsplash.com/photo-1547826039-bfc35e0f1ea8?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Abstract Art" class="w-full h-64 object-cover">
-                    <div class="p-6">
-                        <h3 class="serif text-2xl font-bold mb-2">Abstract Expressions</h3>
-                        <p class="text-gray-600">When emotions transcend form, abstract art emerges as a powerful medium to convey the complexities of human experience.</p>
+                    <div class="col-span-12 md:col-span-5 md:mt-20 bg-black md:bg-transparent p-6 md:p-0">
+                        <p class="text-sm text-gray-300 mb-6">
+                            Our Impressionist collection features works that capture fleeting moments of light and atmosphere, challenging traditional academic painting with bold brushwork and vibrant color.
+                        </p>
+                        <p class="text-sm text-gray-300 mb-6">
+                            Celebrate the innovation of artists who dared to break conventions and paved the way for modern art movements.
+                        </p>
+                        <a href="#" class="inline-block px-6 py-2 border border-accent text-accent text-sm tracking-widest hover:bg-accent hover:text-black transition duration-300">View Collection</a>
                     </div>
-                </div>
-                
-                <div class="art-card bg-white rounded-lg overflow-hidden shadow-lg">
-                    <img src="https://images.unsplash.com/photo-1501084817091-a4f3d1d19e07?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Modern Art" class="w-full h-64 object-cover">
-                    <div class="p-6">
-                        <h3 class="serif text-2xl font-bold mb-2">Contemporary Vision</h3>
-                        <p class="text-gray-600">Today's artists blend tradition with innovation, using new media and perspectives to challenge our understanding of art itself.</p>
+                    
+                    <!-- Scattered elements -->
+                    <div class="hidden md:block col-span-4 col-start-9 -mt-16">
+                        <img src="https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80" alt="Art Detail" class="w-full h-48 object-cover">
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Historical Art Parallax Section -->
-    <section class="parallax py-32 text-center text-white relative" style="background-image: url('https://images.unsplash.com/photo-1566041510639-8d95a2490bfb?ixlib=rb-1.2.1&auto=format&fit=crop&w=2070&q=80');">
-        <div class="absolute inset-0 bg-black opacity-60"></div>
-        <div class="container mx-auto px-4 relative z-10">
-            <h2 class="serif text-4xl font-bold mb-6">The Legacy of Masters</h2>
-            <div class="max-w-4xl mx-auto">
-                <p class="mb-8 text-lg">In the 15th century, Leonardo da Vinci revolutionized art by combining scientific observation with artistic genius. His technique of sfumato—the delicate blending of light and shadow—created an unprecedented sense of depth and emotion in works like the Mona Lisa.</p>
-                <p class="mb-8 text-lg">Vincent van Gogh's bold brushstrokes and vibrant colors were initially dismissed, yet his expressive style laid the groundwork for modern art movements. Despite selling only one painting during his lifetime, his work now inspires countless artists to pursue their vision regardless of recognition.</p>
-                <p class="text-lg">Frida Kahlo transformed personal suffering into powerful visual narratives, using self-portraiture to explore identity, gender, and cultural heritage. Her unflinching honesty continues to resonate with contemporary audiences seeking authentic expression.</p>
-            </div>
+    <!-- Collection Grid -->
+    <section class="py-20 px-6">
+        <h2 class="font-display text-2xl md:text-3xl text-center mb-2">Explore the Collection</h2>
+        <p class="text-center text-sm text-gray-400 mb-16">Discover our diverse artistic heritage across periods and mediums</p>
+        
+        <div class="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-2">
+            <a href="#" class="block overflow-hidden art-piece">
+                <img src="https://images.unsplash.com/photo-1617791160536-598cf32026fb?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Renaissance" class="w-full h-80 object-cover hover:scale-105 transition duration-500">
+                <p class="text-xs mt-2 text-gray-300">Renaissance</p>
+            </a>
+            <a href="#" class="block overflow-hidden art-piece mt-10">
+                <img src="https://images.unsplash.com/photo-1557753478-d612d367e395?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Portraits" class="w-full h-80 object-cover hover:scale-105 transition duration-500">
+                <p class="text-xs mt-2 text-gray-300">Portraits</p>
+            </a>
+            <a href="#" class="block overflow-hidden art-piece">
+                <img src="https://images.unsplash.com/photo-1559102877-4a2cc0e37fce?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Sculptures" class="w-full h-80 object-cover hover:scale-105 transition duration-500">
+                <p class="text-xs mt-2 text-gray-300">Sculptures</p>
+            </a>
+            <a href="#" class="block overflow-hidden art-piece mt-10">
+                <img src="https://images.unsplash.com/photo-1579541814924-49fef17c5be5?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Modern" class="w-full h-80 object-cover hover:scale-105 transition duration-500">
+                <p class="text-xs mt-2 text-gray-300">Modern</p>
+            </a>
         </div>
     </section>
 
-    <!-- Artist Tools Section -->
-    <section class="py-16 bg-white">
-        <div class="container mx-auto px-4">
-            <h2 class="serif text-4xl font-bold text-center mb-4">The Tools of Creation</h2>
-            <p class="text-center text-gray-600 mb-12 max-w-3xl mx-auto">Behind every masterpiece lies the humble tools that transform vision into reality.</p>
-            
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                <div class="text-center">
-                    <div class="mb-4 mx-auto w-32 h-32 rounded-full flex items-center justify-center bg-red-50">
-                        <img src="https://images.unsplash.com/photo-1520420097861-e4959843b682?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Brushes" class="w-16 h-16 object-contain">
-                    </div>
-                    <h3 class="serif text-xl font-bold mb-2">The Humble Brush</h3>
-                    <p class="text-gray-600">From delicate details to bold strokes, the brush extends the artist's hand to the canvas.</p>
-                </div>
-                
-                <div class="text-center">
-                    <div class="mb-4 mx-auto w-32 h-32 rounded-full flex items-center justify-center bg-blue-50">
-                        <img src="https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Palette" class="w-16 h-16 object-contain">
-                    </div>
-                    <h3 class="serif text-xl font-bold mb-2">The Vibrant Palette</h3>
-                    <p class="text-gray-600">Where colors blend and harmonize before bringing life to the artist's vision.</p>
-                </div>
-                
-                <div class="text-center">
-                    <div class="mb-4 mx-auto w-32 h-32 rounded-full flex items-center justify-center bg-yellow-50">
-                        <img src="https://images.unsplash.com/photo-1452860606245-08befc0ff44b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Pencil" class="w-16 h-16 object-contain">
-                    </div>
-                    <h3 class="serif text-xl font-bold mb-2">The Patient Pencil</h3>
-                    <p class="text-gray-600">Where masterpieces begin their journey as whispers of graphite on paper.</p>
-                </div>
-                
-                <div class="text-center">
-                    <div class="mb-4 mx-auto w-32 h-32 rounded-full flex items-center justify-center bg-green-50">
-                        <img src="https://images.unsplash.com/photo-1526289034009-0240ddb68ce3?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Canvas" class="w-16 h-16 object-contain">
-                    </div>
-                    <h3 class="serif text-xl font-bold mb-2">The Blank Canvas</h3>
-                    <p class="text-gray-600">A world of infinite possibility awaiting the first touch of inspiration.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Exhibition Showcase -->
-    <section class="py-16 bg-gray-900 text-white">
-        <div class="container mx-auto px-4">
-            <h2 class="serif text-4xl font-bold text-center mb-4">Where Art Comes Alive</h2>
-            <p class="text-center text-gray-300 mb-12 max-w-3xl mx-auto">Step into the transformative spaces where art and humanity connect in profound dialogue.</p>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="relative rounded-lg overflow-hidden group">
-                    <img src="https://images.unsplash.com/photo-1482245294234-b3f2f8d5f1a4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Gallery Exhibition" class="w-full h-80 object-cover transition duration-500 transform group-hover:scale-110">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-80"></div>
-                    <div class="absolute bottom-0 left-0 p-6">
-                        <h3 class="serif text-2xl font-bold mb-2">The Modern Gallery</h3>
-                        <p class="text-gray-200">Contemporary spaces designed to challenge perceptions and provoke thought.</p>
-                    </div>
-                </div>
-                
-                <div class="relative rounded-lg overflow-hidden group">
-                    <img src="https://images.unsplash.com/photo-1594760467013-64ac2b80b7d3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Museum Exhibition" class="w-full h-80 object-cover transition duration-500 transform group-hover:scale-110">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-80"></div>
-                    <div class="absolute bottom-0 left-0 p-6">
-                        <h3 class="serif text-2xl font-bold mb-2">Historic Museums</h3>
-                        <p class="text-gray-200">Guardians of artistic heritage preserving our collective cultural memory.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Inspirational Quote -->
-    <section class="py-24 bg-red-600 text-white">
-        <div class="container mx-auto px-4 text-center">
-            <div class="max-w-4xl mx-auto">
-                <p class="serif text-3xl italic font-light mb-6">"Art enables us to find ourselves and lose ourselves at the same time."</p>
-                <p class="text-xl">— Thomas Merton</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Featured Workshops Section -->
-    <section class="py-16 bg-white">
-        <div class="container mx-auto px-4">
-            <div class="flex justify-between items-center mb-8">
-                <h2 class="serif text-4xl font-bold">Featured Workshops</h2>
-                <a href="{{ route('workshops.index') }}" class="text-red-600 hover:text-red-700 font-semibold flex items-center">
-                    <span>Explore All Workshops</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+    <!-- Workshop Section -->
+    <section class="py-20 px-6">
+        <div class="max-w-6xl mx-auto">
+            <div class="md:flex justify-between items-end mb-16">
+                <h2 class="font-display text-2xl md:text-3xl mb-6 md:mb-0">Featured Workshops</h2>
+                <a href="{{ route('workshops.index') }}" class="text-accent text-sm tracking-widest hover:text-white transition duration-300 flex items-center">
+                    View all workshops
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                     </svg>
                 </a>
             </div>
             
             @if(isset($featuredWorkshops) && $featuredWorkshops->count() > 0)
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                     @foreach($featuredWorkshops as $workshop)
-                        <div class="art-card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow">
+                        <div class="bg-black p-4 art-piece">
                             <div class="relative">
                                 @if($workshop->video_thumbnail)
-                                    <img src="{{ $workshop->video_thumbnail }}" alt="{{ $workshop->title }}" class="w-full h-56 object-cover">
+                                    <img src="{{ $workshop->video_thumbnail }}" alt="{{ $workshop->title }}" class="w-full h-60 object-cover">
                                 @elseif($workshop->thumbnail_image)
-                                    <img src="{{ asset('storage/' . $workshop->thumbnail_image) }}" alt="{{ $workshop->title }}" class="w-full h-56 object-cover">
+                                    <img src="{{ asset('storage/' . $workshop->thumbnail_image) }}" alt="{{ $workshop->title }}" class="w-full h-60 object-cover">
                                 @else
-                                    <div class="w-full h-56 bg-gray-200 flex items-center justify-center">
-                                        <i class="fas fa-paint-brush text-4xl text-gray-400"></i>
+                                    <div class="w-full h-60 bg-gray-900 flex items-center justify-center">
+                                        <i class="fas fa-paint-brush text-4xl text-gray-600"></i>
                                     </div>
                                 @endif
                                 
-                                <div class="absolute top-2 right-2 bg-black bg-opacity-70 text-white px-2 py-1 text-sm rounded">
+                                <div class="absolute bottom-4 right-4 bg-black bg-opacity-70 text-white px-2 py-1 text-xs">
                                     {{ $workshop->formatted_duration }}
                                 </div>
                             </div>
                             
-                            <div class="p-6">
-                                <h3 class="serif text-xl font-bold mb-2">{{ $workshop->title }}</h3>
-                                <p class="text-gray-600 mb-4 line-clamp-2">{{ $workshop->description }}</p>
+                            <div class="pt-6">
+                                <h3 class="font-display text-xl mb-2">{{ $workshop->title }}</h3>
+                                <p class="text-gray-400 text-sm mb-4 line-clamp-2">{{ $workshop->description }}</p>
                                 
-                                <div class="flex justify-between items-center text-sm text-gray-500 mb-4">
+                                <div class="flex justify-between items-center text-xs text-gray-500 mb-4">
                                     <span>{{ $workshop->date ? $workshop->date->format('M d, Y') : 'Added: ' . $workshop->created_at->format('M d, Y') }}</span>
-                                    <div class="flex items-center">
-                                        <span class="flex items-center mr-3">
+                                    <div class="flex items-center space-x-3">
+                                        <span class="flex items-center">
                                             <i class="fas fa-eye mr-1"></i>
                                             {{ $workshop->views }}
                                         </span>
@@ -284,13 +412,13 @@
                                 </div>
                                 
                                 <div class="flex justify-between items-center">
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
-                                        {{ $workshop->skill_level == 'beginner' ? 'bg-green-100 text-green-800' : 
-                                        ($workshop->skill_level == 'intermediate' ? 'bg-blue-100 text-blue-800' : 'bg-purple-100 text-purple-800') }}">
+                                    <span class="inline-flex items-center px-2 py-1 text-xs 
+                                        {{ $workshop->skill_level == 'beginner' ? 'text-green-400' : 
+                                        ($workshop->skill_level == 'intermediate' ? 'text-blue-400' : 'text-purple-400') }}">
                                         {{ ucfirst($workshop->skill_level) }}
                                     </span>
-                                    <a href="{{ route('workshops.show', $workshop) }}" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded transition-colors flex items-center">
-                                        <span>Watch Now</span>
+                                    <a href="{{ route('workshops.show', $workshop) }}" class="text-accent text-sm hover:text-white transition-colors flex items-center">
+                                        Watch
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" viewBox="0 0 20 20" fill="currentColor">
                                             <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />
                                         </svg>
@@ -301,69 +429,72 @@
                     @endforeach
                 </div>
             @else
-                <div class="text-center py-8">
-                    <p class="text-gray-600 text-lg serif italic">No featured workshops available at the moment.</p>
-                    <p class="mt-2">New artistic journeys coming soon.</p>
+                <div class="text-center py-16 bg-black">
+                    <p class="font-display text-xl text-gray-300 italic mb-2">No featured workshops available at the moment.</p>
+                    <p class="text-sm text-gray-400">New artistic journeys coming soon.</p>
                 </div>
             @endif
         </div>
     </section>
 
-    <!-- Call to Action -->
-    <section class="py-24 bg-cover bg-center text-white relative" style="background-image: url('https://images.unsplash.com/photo-1595909315417-2edd382a56dc?ixlib=rb-1.2.1&auto=format&fit=crop&w=2070&q=80');">
-        <div class="absolute inset-0 bg-black opacity-70"></div>
-        <div class="container mx-auto px-4 relative z-10 text-center">
-            <h2 class="serif text-4xl font-bold mb-6">Begin Your Artistic Journey Today</h2>
-            <p class="text-xl mb-8 max-w-2xl mx-auto">Join our community of artists and art enthusiasts to share, learn, and grow together in the timeless pursuit of creative expression.</p>
-            <div class="flex justify-center space-x-4">
-                <a href="{{ route('register') }}" class="bg-red-600 text-white px-8 py-3 rounded-full font-bold hover:bg-red-700 transition duration-300">Join YouArt</a>
-                <a href="{{ route('workshops.index') }}" class="bg-transparent border-2 border-white text-white px-8 py-3 rounded-full font-bold hover:bg-white hover:text-gray-900 transition duration-300">Explore Workshops</a>
-            </div>
+    <!-- Sign Up -->
+    <section class="py-32 px-6 bg-black">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="font-display text-3xl md:text-4xl mb-6">Begin Your Artistic Journey</h2>
+            <p class="text-gray-300 mb-10 max-w-lg mx-auto">Join our community of artists and enthusiasts exploring the transformative power of creative expression.</p>
+            <a href="{{ route('register') }}" class="inline-block px-8 py-3 bg-accent text-black text-sm font-medium tracking-widest hover:bg-white transition duration-300">Join YouArt</a>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="bg-gray-900 text-white py-12">
-        <div class="container mx-auto px-4">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+    <footer class="py-16 px-6 bg-black border-t border-gray-900">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
                 <div>
-                    <h3 class="serif text-2xl font-bold mb-4">YouArt</h3>
-                    <p class="text-gray-400 mb-4">"Art is not what you see, but what you make others see." — Edgar Degas</p>
-                    <p class="text-gray-400">Connecting artists and art lovers worldwide through inspiration and creation.</p>
+                    <a href="{{ route('home') }}" class="text-2xl font-display font-light tracking-widest text-white mb-6 inline-block">You<span class="text-accent">Art</span></a>
+                    <p class="text-gray-400 text-sm mb-6">"Art is not what you see, but what you make others see." — Edgar Degas</p>
+                    <p class="text-gray-500 text-xs">© {{ date('Y') }} YouArt. All rights reserved.</p>
                 </div>
+                
                 <div>
-                    <h3 class="text-xl font-bold mb-4">Explore</h3>
-                    <ul class="space-y-2">
-                        <li><a href="{{ route('home') }}" class="text-gray-400 hover:text-white transition duration-300">Home</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Artworks</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Auctions</a></li>
-                        <li><a href="{{ route('workshops.index') }}" class="text-gray-400 hover:text-white transition duration-300">Workshops</a></li>
+                    <h3 class="text-sm font-medium mb-6 uppercase tracking-wider">Quick Links</h3>
+                    <ul class="space-y-3">
+                        <li><a href="{{ route('home') }}" class="text-gray-400 text-sm hover:text-white transition duration-300">Home</a></li>
+                        <li><a href="#" class="text-gray-400 text-sm hover:text-white transition duration-300">Exhibitions</a></li>
+                        <li><a href="#" class="text-gray-400 text-sm hover:text-white transition duration-300">Collections</a></li>
+                        <li><a href="{{ route('workshops.index') }}" class="text-gray-400 text-sm hover:text-white transition duration-300">Workshops</a></li>
                     </ul>
                 </div>
+                
                 <div>
-                    <h3 class="text-xl font-bold mb-4">Community</h3>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Artist Spotlights</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Exhibitions</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Art History</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Testimonials</a></li>
+                    <h3 class="text-sm font-medium mb-6 uppercase tracking-wider">Legal</h3>
+                    <ul class="space-y-3">
+                        <li><a href="{{ route('terms') }}" class="text-gray-400 text-sm hover:text-white transition duration-300">Terms of Service</a></li>
+                        <li><a href="{{ route('privacy') }}" class="text-gray-400 text-sm hover:text-white transition duration-300">Privacy Policy</a></li>
                     </ul>
                 </div>
-                <div>
-                    <h3 class="text-xl font-bold mb-4">Legal</h3>
-                    <ul class="space-y-2">
-                        <li><a href="{{ route('terms') }}" class="text-gray-400 hover:text-white transition duration-300">Terms of Service</a></li>
-                        <li><a href="{{ route('privacy') }}" class="text-gray-400 hover:text-white transition duration-300">Privacy Policy</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Cookie Policy</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Copyright Information</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-500">
-                <p>&copy; {{ date('Y') }} YouArt. All rights reserved.</p>
-                <p class="mt-2 text-sm">Crafted with passion for artists and art lovers everywhere.</p>
             </div>
         </div>
     </footer>
-    </body>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Reveal animations on scroll
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('fade-in');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+            
+            document.querySelectorAll('.art-piece:not(.fade-in)').forEach(item => {
+                observer.observe(item);
+            });
+        });
+    </script>
+</body>
 </html>
