@@ -36,7 +36,7 @@
                         <p class="text-gray-600 mb-4 line-clamp-2">{{ $workshop->description }}</p>
                         
                         <div class="flex justify-between items-center text-sm text-gray-500 mb-4">
-                            <span>{{ $workshop->date ? $workshop->date->format('M d, Y') : 'Date TBA' }}</span>
+                            <span>{{ $workshop->date ? $workshop->date->format('M d, Y') : 'Added: ' . $workshop->created_at->format('M d, Y') }}</span>
                             <div class="flex items-center">
                                 <span class="flex items-center mr-3">
                                     <i class="fas fa-eye mr-1"></i>
