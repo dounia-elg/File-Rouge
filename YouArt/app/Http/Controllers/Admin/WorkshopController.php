@@ -54,15 +54,7 @@ class WorkshopController extends Controller
             'description' => 'required|string',
             'video_link' => 'required|string|max:255',
             'skill_level' => 'required|string|in:beginner,intermediate,advanced',
-            'date' => 'required|date',
-            'duration' => 'required|integer|min:1',
-            'is_active' => 'boolean',
         ]);
-        
-        // Set default values
-        $validated['is_active'] = true;
-        $validated['is_featured'] = false;
-        $validated['thumbnail_image'] = null;
 
         Workshop::create($validated);
 
@@ -95,15 +87,7 @@ class WorkshopController extends Controller
             'description' => 'required|string',
             'video_link' => 'required|string|max:255',
             'skill_level' => 'required|string|in:beginner,intermediate,advanced',
-            'date' => 'required|date',
-            'duration' => 'required|integer|min:1',
-            'is_active' => 'boolean',
-            'is_featured' => 'boolean',
         ]);
-        
-        // Set default values
-        $validated['is_active'] = true;
-        $validated['is_featured'] = $request->has('is_featured');
 
         $workshop->update($validated);
 

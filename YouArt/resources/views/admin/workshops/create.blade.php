@@ -59,11 +59,6 @@
                 @enderror
             </div>
 
-            <!-- Hidden fields with default values -->
-            <input type="hidden" name="date" value="{{ now()->format('Y-m-d H:i:s') }}">
-            <input type="hidden" name="duration" value="60">
-            <input type="hidden" name="is_active" value="1">
-
             <div class="flex justify-end">
                 <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">
                     Create Workshop

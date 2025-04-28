@@ -60,12 +60,6 @@
                 @enderror
             </div>
 
-            <!-- Hidden fields to preserve existing values -->
-            <input type="hidden" name="date" value="{{ $workshop->date ? $workshop->date->format('Y-m-d H:i:s') : now()->format('Y-m-d H:i:s') }}">
-            <input type="hidden" name="duration" value="{{ $workshop->duration ?? 60 }}">
-            <input type="hidden" name="is_active" value="1">
-            <input type="hidden" name="is_featured" value="{{ $workshop->is_featured ? '1' : '0' }}">
-
             <div class="flex justify-end">
                 <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">
                     Update Workshop
