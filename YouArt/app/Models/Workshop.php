@@ -18,14 +18,7 @@ class Workshop extends Model
         'title',
         'description',
         'video_link',
-        'thumbnail_image',
-        'date',
-        'duration',
         'skill_level',
-        'views',
-        'likes',
-        'is_active',
-        'is_featured',
     ];
 
     /**
@@ -34,12 +27,7 @@ class Workshop extends Model
      * @var array<string, string>
      */
     protected $casts = [
-        'views' => 'integer',
-        'likes' => 'integer',
-        'duration' => 'integer',
         'date' => 'datetime',
-        'is_active' => 'boolean',
-        'is_featured' => 'boolean',
     ];
 
     /**
