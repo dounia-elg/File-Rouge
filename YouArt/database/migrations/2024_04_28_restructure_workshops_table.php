@@ -22,20 +22,39 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // Copy data from existing table to the new one, if the old table exists
+        // Add missing columns to the existing table instead of replacing it
         if (Schema::hasTable('workshops')) {
-            DB::statement('INSERT INTO workshops_new (id, title, description, video_link, skill_level, created_at, updated_at)
-                SELECT id, title, description, video_link, skill_level, created_at, updated_at 
-                FROM workshops');
+            // Add columns that might be needed
+            if (!Schema::hasColumn('workshops', 'date')) {
+                Schema::table('workshops', function (Blueprint $table) {
+                    $table->timestamp('date')->nullable();
+                });
+            }
             
-            // Drop the old table
-            Schema::drop('workshops');
-            
-            // Rename the new table to the original name
-            Schema::rename('workshops_new', 'workshops');
+            // Remove all columns from the existing workshops table except the ones we want to keep
+            Schema::table('workshops', function (Blueprint $table) {
+                // Keep only these columns and drop the rest
+                $columnsToKeep = ['id', 'title', 'description', 'video_link', 'skill_level', 'created_at', 'updated_at'];
+                $columns = Schema::getColumnListing('workshops');
+                
+                foreach ($columns as $column) {
+                    if (!in_array($column, $columnsToKeep)) {
+                        try {
+                            $table->dropColumn($column);
+                        } catch (\Exception $e) {
+                            // Column might not exist or be droppable, continue anyway
+                        }
+                    }
+                }
+            });
         } else {
             // If the workshops table doesn't exist, rename the new table
             Schema::rename('workshops_new', 'workshops');
+        }
+        
+        // Clean up the temporary table if it still exists
+        if (Schema::hasTable('workshops_new')) {
+            Schema::dropIfExists('workshops_new');
         }
     }
 
@@ -44,12 +63,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        // Since we're fundamentally changing the table structure, 
-        // there's no perfect way to reverse this migration.
-        // The best we can do is recreate the table with common columns.
-        Schema::table('workshops', function (Blueprint $table) {
-            // We can't really roll back completely, as we would need to know
-            // the exact previous structure
-        });
+        // No need to do anything in down method as we're just simplifying the table structure
     }
 }; 
