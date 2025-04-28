@@ -1,24 +1,23 @@
-@extends('layouts.app')
-
-@section('title', 'Add Workshop')
+@extends('admin.layouts.app')
 
 @section('content')
-<div class="container mx-auto px-4 py-8">
+<div class="p-4">
+    <h1 class="text-2xl font-bold mb-6">Add New Workshop</h1>
+    
     <div class="flex justify-between items-center mb-6">
-        <h1 class="text-3xl font-bold">Add New Workshop</h1>
         <a href="{{ route('admin.workshops.index') }}" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded">
             Back to Workshops
         </a>
     </div>
 
-    <div class="bg-white rounded-lg shadow-md p-6">
-        <form action="{{ route('admin.workshops.store') }}" method="POST" enctype="multipart/form-data">
+    <div class="bg-white p-6 rounded shadow">
+        <form action="{{ route('admin.workshops.store') }}" method="POST">
             @csrf
 
             <div class="mb-4">
                 <label for="title" class="block text-gray-700 font-medium mb-2">Title</label>
                 <input type="text" name="title" id="title" value="{{ old('title') }}" 
-                    class="w-full border-gray-300 rounded-md shadow-sm focus:border-red-500 focus:ring focus:ring-red-200" 
+                    class="w-full border border-gray-300 rounded p-2 focus:border-red-500 focus:ring focus:ring-red-200" 
                     required>
                 @error('title')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -28,7 +27,7 @@
             <div class="mb-4">
                 <label for="description" class="block text-gray-700 font-medium mb-2">Description</label>
                 <textarea name="description" id="description" rows="6" 
-                    class="w-full border-gray-300 rounded-md shadow-sm focus:border-red-500 focus:ring focus:ring-red-200" 
+                    class="w-full border border-gray-300 rounded p-2 focus:border-red-500 focus:ring focus:ring-red-200" 
                     required>{{ old('description') }}</textarea>
                 @error('description')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -38,7 +37,7 @@
             <div class="mb-4">
                 <label for="video_link" class="block text-gray-700 font-medium mb-2">Video Link</label>
                 <input type="text" name="video_link" id="video_link" value="{{ old('video_link') }}" 
-                    class="w-full border-gray-300 rounded-md shadow-sm focus:border-red-500 focus:ring focus:ring-red-200" 
+                    class="w-full border border-gray-300 rounded p-2 focus:border-red-500 focus:ring focus:ring-red-200" 
                     required>
                 <p class="text-gray-500 text-sm mt-1">Enter YouTube or Vimeo link for the workshop</p>
                 @error('video_link')
@@ -46,42 +45,10 @@
                 @enderror
             </div>
 
-            <div class="mb-4">
-                <label for="thumbnail_image" class="block text-gray-700 font-medium mb-2">Thumbnail Image</label>
-                <input type="file" name="thumbnail_image" id="thumbnail_image" 
-                    class="w-full border-gray-300 rounded-md shadow-sm focus:border-red-500 focus:ring focus:ring-red-200">
-                <p class="text-gray-500 text-sm mt-1">Recommended size: 16:9 ratio, minimum 720px width</p>
-                @error('thumbnail_image')
-                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                @enderror
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                <div>
-                    <label for="date" class="block text-gray-700 font-medium mb-2">Workshop Date</label>
-                    <input type="datetime-local" name="date" id="date" value="{{ old('date') }}" 
-                        class="w-full border-gray-300 rounded-md shadow-sm focus:border-red-500 focus:ring focus:ring-red-200" 
-                        required>
-                    @error('date')
-                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <div>
-                    <label for="duration" class="block text-gray-700 font-medium mb-2">Duration (minutes)</label>
-                    <input type="number" name="duration" id="duration" value="{{ old('duration') }}" 
-                        class="w-full border-gray-300 rounded-md shadow-sm focus:border-red-500 focus:ring focus:ring-red-200" 
-                        min="1" required>
-                    @error('duration')
-                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
-            </div>
-
-            <div class="mb-4">
+            <div class="mb-6">
                 <label for="skill_level" class="block text-gray-700 font-medium mb-2">Skill Level</label>
                 <select name="skill_level" id="skill_level" 
-                    class="w-full border-gray-300 rounded-md shadow-sm focus:border-red-500 focus:ring focus:ring-red-200" 
+                    class="w-full border border-gray-300 rounded p-2 focus:border-red-500 focus:ring focus:ring-red-200" 
                     required>
                     <option value="beginner" {{ old('skill_level') == 'beginner' ? 'selected' : '' }}>Beginner</option>
                     <option value="intermediate" {{ old('skill_level') == 'intermediate' ? 'selected' : '' }}>Intermediate</option>
@@ -92,21 +59,10 @@
                 @enderror
             </div>
 
-            <div class="flex flex-col md:flex-row gap-4 mb-6">
-                <div class="flex items-center">
-                    <input type="checkbox" name="is_active" id="is_active" 
-                        class="rounded border-gray-300 text-red-500 focus:border-red-500 focus:ring focus:ring-red-200" 
-                        {{ old('is_active', true) ? 'checked' : '' }}>
-                    <label for="is_active" class="ml-2 text-gray-700">Active (visible to users)</label>
-                </div>
-
-                <div class="flex items-center">
-                    <input type="checkbox" name="is_featured" id="is_featured" 
-                        class="rounded border-gray-300 text-red-500 focus:border-red-500 focus:ring focus:ring-red-200" 
-                        {{ old('is_featured') ? 'checked' : '' }}>
-                    <label for="is_featured" class="ml-2 text-gray-700">Featured (shown on homepage)</label>
-                </div>
-            </div>
+            <!-- Hidden fields with default values -->
+            <input type="hidden" name="date" value="{{ now()->format('Y-m-d H:i:s') }}">
+            <input type="hidden" name="duration" value="60">
+            <input type="hidden" name="is_active" value="1">
 
             <div class="flex justify-end">
                 <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">

@@ -54,22 +54,15 @@ class WorkshopController extends Controller
             'description' => 'required|string',
             'video_link' => 'required|string|max:255',
             'skill_level' => 'required|string|in:beginner,intermediate,advanced',
-            'thumbnail_image' => 'nullable|image|max:2048',
             'date' => 'required|date',
             'duration' => 'required|integer|min:1',
             'is_active' => 'boolean',
-            'is_featured' => 'boolean',
         ]);
         
-        // Handle is_active and is_featured checkboxes
-        $validated['is_active'] = $request->has('is_active');
-        $validated['is_featured'] = $request->has('is_featured');
-        
-        // Handle thumbnail image upload
-        if ($request->hasFile('thumbnail_image')) {
-            $path = $request->file('thumbnail_image')->store('workshops', 'public');
-            $validated['thumbnail_image'] = $path;
-        }
+        // Set default values
+        $validated['is_active'] = true;
+        $validated['is_featured'] = false;
+        $validated['thumbnail_image'] = null;
 
         Workshop::create($validated);
 
