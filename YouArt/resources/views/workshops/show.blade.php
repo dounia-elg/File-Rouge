@@ -117,6 +117,11 @@
             @endif
             
             <div class="workshop-detail">
+                <h2 class="text-lg font-medium mb-2">Added on</h2>
+                <p class="text-gray-800">{{ $workshop->created_at->format('F d, Y') }}</p>
+            </div>
+            
+            <div class="workshop-detail">
                 <h2 class="text-lg font-medium mb-2">What you'll learn</h2>
                 <ul class="list-disc pl-5 text-gray-800">
                     <li>Learn the fundamental techniques of {{ strtolower($workshop->title) }}</li>
