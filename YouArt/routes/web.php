@@ -10,6 +10,7 @@ use App\Http\Controllers\WorkshopController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Models\Workshop;
+use App\Http\Controllers\ArtLoverController;
 
 // Home route
 Route::get('/', function () {
@@ -48,6 +49,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/artist/space', [ArtistController::class, 'space'])->name('artist.space');
     Route::get('/artist/edit', [ArtistController::class, 'edit'])->name('artist.edit');
     Route::post('/artist/update', [ArtistController::class, 'update'])->name('artist.update');
+    
+    // ArtLover space
+    Route::get('/artlover/space', [ArtLoverController::class, 'space'])->name('artlover.space');
     
     // Artwork 
     Route::get('/artworks/create', [ArtworkController::class, 'create'])->name('artworks.create');

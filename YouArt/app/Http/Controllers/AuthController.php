@@ -85,6 +85,8 @@ class AuthController extends Controller
                 return redirect()->route('admin.dashboard');
             } else if (Auth::user()->role === 'artist') {
                 return redirect()->route('artist.space');
+            } else if (Auth::user()->role === 'art_lover') {
+                return redirect()->route('artlover.space');
             } else {
                 return redirect()->route('home');
             }
