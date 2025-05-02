@@ -52,6 +52,8 @@ Route::middleware(['auth'])->group(function () {
     
     // ArtLover space
     Route::get('/artlover/space', [ArtLoverController::class, 'space'])->name('artlover.space');
+    Route::get('/artlover/edit', [ArtLoverController::class, 'edit'])->name('artlover.edit');
+    Route::post('/artlover/update', [ArtLoverController::class, 'update'])->name('artlover.update');
     
     // Artwork 
     Route::get('/artworks/create', [ArtworkController::class, 'create'])->name('artworks.create');

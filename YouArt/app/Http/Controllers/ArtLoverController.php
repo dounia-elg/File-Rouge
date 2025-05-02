@@ -25,4 +25,34 @@ class ArtLoverController extends Controller
 
         return view('artlover.space', compact('featuredWorkshops', 'featuredArtworks'));
     }
+
+    public function edit()
+    {
+        $user = auth()->user();
+        return view('artlover.edit', compact('user'));
+    }
+
+    public function update(Request $request)
+    {
+        $user = auth()->user();
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'location' => 'nullable|string|max:255',
+            'bio' => 'nullable|string|max:1000',
+            'profile_image' => 'nullable|image|max:2048',
+        ]);
+
+        // Handle profile image upload
+        if ($request->hasFile('profile_image')) {
+            if ($user->profile_image && \Storage::exists('public/' . $user->profile_image)) {
+                \Storage::delete('public/' . $user->profile_image);
+            }
+            $imagePath = $request->file('profile_image')->store('profile-images', 'public');
+            $validated['profile_image'] = $imagePath;
+        }
+
+        $user->update($validated);
+
+        return redirect()->route('artlover.space')->with('success', 'Profile updated successfully!');
+    }
 } 
