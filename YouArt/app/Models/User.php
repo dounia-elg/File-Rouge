@@ -80,4 +80,12 @@ class User extends Authenticatable
     {
         return $this->role === 'admin';
     }
+
+    /**
+     * Artworks liked by the user
+     */
+    public function likedArtworks()
+    {
+        return $this->belongsToMany(Artwork::class, 'artwork_likes')->withTimestamps();
+    }
 }

@@ -146,4 +146,28 @@ class ArtworkController extends Controller
         $artworks = Artwork::orderBy('created_at', 'desc')->get();
         return view('artworks.all', compact('artworks'));
     }
+
+    /**
+     * Like an artwork
+     */
+    public function like(Artwork $artwork)
+    {
+        $user = Auth::user();
+        if (!$artwork->isLikedBy($user)) {
+            $artwork->likes()->attach($user->id);
+        }
+        return back();
+    }
+
+    /**
+     * Unlike an artwork
+     */
+    public function unlike(Artwork $artwork)
+    {
+        $user = Auth::user();
+        if ($artwork->isLikedBy($user)) {
+            $artwork->likes()->detach($user->id);
+        }
+        return back();
+    }
 }

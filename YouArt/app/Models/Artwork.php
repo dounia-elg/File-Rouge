@@ -45,4 +45,20 @@ class Artwork extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    /**
+     * Users who liked this artwork
+     */
+    public function likes()
+    {
+        return $this->belongsToMany(User::class, 'artwork_likes')->withTimestamps();
+    }
+
+    /**
+     * Check if a user liked this artwork
+     */
+    public function isLikedBy($user)
+    {
+        return $this->likes()->where('user_id', $user->id)->exists();
+    }
 } 

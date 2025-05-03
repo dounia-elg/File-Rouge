@@ -64,6 +64,9 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/artworks/{artwork}', [ArtworkController::class, 'destroy'])->name('artworks.destroy');
     // All artworks page
     Route::get('/artworks', [ArtworkController::class, 'all'])->name('artworks.all');
+    // Like/unlike routes
+    Route::post('/artworks/{artwork}/like', [ArtworkController::class, 'like'])->name('artworks.like');
+    Route::post('/artworks/{artwork}/unlike', [ArtworkController::class, 'unlike'])->name('artworks.unlike');
 });
 
 // Admin  

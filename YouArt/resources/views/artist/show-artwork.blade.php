@@ -50,7 +50,7 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                                 </svg>
-                                {{ $artwork->likes }} likes
+                                {{ $artwork->likes()->count() }} likes
                             </div>
                             <div class="flex items-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -67,6 +67,21 @@
                                 @endif
                             </div>
                         </div>
+                        @auth
+                        <div class="mt-4">
+                            @if(!$artwork->isLikedBy(Auth::user()))
+                                <form action="{{ route('artworks.like', $artwork) }}" method="POST" class="inline">
+                                    @csrf
+                                    <button type="submit" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition">Like</button>
+                                </form>
+                            @else
+                                <form action="{{ route('artworks.unlike', $artwork) }}" method="POST" class="inline">
+                                    @csrf
+                                    <button type="submit" class="px-4 py-2 bg-gray-300 text-red-600 rounded hover:bg-gray-400 transition">Unlike</button>
+                                </form>
+                            @endif
+                        </div>
+                        @endauth
                     </div>
                     
                     <div class="mt-6">
