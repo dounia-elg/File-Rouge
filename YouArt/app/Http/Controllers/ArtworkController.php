@@ -141,10 +141,16 @@ class ArtworkController extends Controller
     /**
      * Show all artworks ordered by newest first
      */
-    public function all()
+    public function all(Request $request)
     {
-        $artworks = Artwork::orderBy('created_at', 'desc')->get();
-        return view('artworks.all', compact('artworks'));
+        $query = $request->input('q');
+        $artworks = Artwork::with('user')
+            ->when($query, function($qB) use ($query) {
+                $qB->where('title', 'ILIKE', "%$query%");
+            })
+            ->orderBy('created_at', 'desc')
+            ->get();
+        return view('artworks.all', compact('artworks', 'query'));
     }
 
     /**
