@@ -5,6 +5,10 @@
 @section('content')
 <div class="container mx-auto px-4 py-8">
     <h1 class="text-3xl font-bold mb-8 text-center">All Artists</h1>
+    <form method="GET" action="{{ route('artists.all') }}" class="mb-8 flex justify-center">
+        <input type="text" name="q" value="{{ isset($query) ? $query : '' }}" placeholder="Search artists by name..." class="px-4 py-2 border border-gray-300 rounded-l focus:outline-none focus:ring-2 focus:ring-red-400 w-64">
+        <button type="submit" class="px-4 py-2 bg-red-500 text-white rounded-r hover:bg-red-600 transition">Search</button>
+    </form>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
         @forelse($artists as $artist)
             <div class="bg-white rounded-xl shadow p-6 flex flex-col items-center hover:shadow-lg transition">

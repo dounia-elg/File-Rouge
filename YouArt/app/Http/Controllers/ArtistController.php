@@ -80,10 +80,15 @@ class ArtistController extends Controller
     /**
      * Show all artists
      */
-    public function all()
+    public function all(Request $request)
     {
-        $artists = \App\Models\User::where('role', 'artist')->latest()->get();
-        return view('artist.all-artists', compact('artists'));
+        $query = $request->input('q');
+        $artists = \App\Models\User::where('role', 'artist')
+            ->when($query, function($q) use ($query) {
+                $q->where('name', 'ILIKE', "%$query%");
+            })
+            ->latest()->get();
+        return view('artist.all-artists', compact('artists', 'query'));
     }
 
     /**
