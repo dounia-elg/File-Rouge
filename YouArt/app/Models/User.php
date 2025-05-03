@@ -88,4 +88,12 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Artwork::class, 'artwork_likes')->withTimestamps();
     }
+
+    /**
+     * Workshops liked by the user
+     */
+    public function likedWorkshops()
+    {
+        return $this->belongsToMany(\App\Models\Workshop::class, 'workshop_likes')->withTimestamps();
+    }
 }

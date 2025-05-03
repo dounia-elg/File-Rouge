@@ -32,6 +32,8 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/workshops', [WorkshopController::class, 'index'])->name('workshops.index');
 Route::get('/workshops/{workshop}', [WorkshopController::class, 'show'])->name('workshops.show');
 Route::post('/workshops/{workshop}/like', [WorkshopController::class, 'like'])->name('workshops.like');
+Route::post('/workshops/{workshop}/unlike', [WorkshopController::class, 'unlike'])->name('workshops.unlike');
+Route::post('/workshops/{workshop}/toggle-like', [WorkshopController::class, 'toggleLikeAjax'])->name('workshops.toggleLikeAjax');
 
 // Terms and Privacy Routes
 Route::get('/terms', function () {

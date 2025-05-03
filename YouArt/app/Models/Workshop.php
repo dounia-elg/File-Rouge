@@ -83,4 +83,20 @@ class Workshop extends Model
     {
         return $this->hasMany(WorkshopRegistration::class);
     }
+
+    /**
+     * Users who liked this workshop
+     */
+    public function likes()
+    {
+        return $this->belongsToMany(User::class, 'workshop_likes')->withTimestamps();
+    }
+
+    /**
+     * Check if a user liked this workshop
+     */
+    public function isLikedBy($user)
+    {
+        return $this->likes()->where('user_id', $user->id)->exists();
+    }
 } 

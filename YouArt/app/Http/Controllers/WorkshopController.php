@@ -30,13 +30,46 @@ class WorkshopController extends Controller
     }
     
     /**
-     * Like a workshop video.
+     * Like a workshop (AJAX and normal)
      */
     public function like(Workshop $workshop)
     {
-        // Increment like count
-        $workshop->increment('likes');
-        
-        return back()->with('success', 'Thank you for liking this workshop!');
+        $user = auth()->user();
+        if (!$workshop->isLikedBy($user)) {
+            $workshop->likes()->attach($user->id);
+        }
+        return back();
+    }
+
+    /**
+     * Unlike a workshop
+     */
+    public function unlike(Workshop $workshop)
+    {
+        $user = auth()->user();
+        if ($workshop->isLikedBy($user)) {
+            $workshop->likes()->detach($user->id);
+        }
+        return back();
+    }
+
+    /**
+     * Toggle like/unlike for AJAX requests
+     */
+    public function toggleLikeAjax(Workshop $workshop)
+    {
+        $user = auth()->user();
+        $liked = false;
+        if ($workshop->isLikedBy($user)) {
+            $workshop->likes()->detach($user->id);
+        } else {
+            $workshop->likes()->attach($user->id);
+            $liked = true;
+        }
+        $likeCount = $workshop->likes()->count();
+        return response()->json([
+            'liked' => $liked,
+            'likeCount' => $likeCount
+        ]);
     }
 } 
