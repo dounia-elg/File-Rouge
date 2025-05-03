@@ -76,4 +76,13 @@ class ArtistController extends Controller
             return redirect()->back()->with('error', 'An error occurred while updating your profile. Please try again later.');
         }
     }
+
+    /**
+     * Show all artists
+     */
+    public function all()
+    {
+        $artists = \App\Models\User::where('role', 'artist')->latest()->get();
+        return view('artist.all-artists', compact('artists'));
+    }
 }

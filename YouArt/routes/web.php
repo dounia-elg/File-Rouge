@@ -51,6 +51,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/artist/space', [ArtistController::class, 'space'])->name('artist.space');
     Route::get('/artist/edit', [ArtistController::class, 'edit'])->name('artist.edit');
     Route::post('/artist/update', [ArtistController::class, 'update'])->name('artist.update');
+    // All artists page
+    Route::get('/artists', [ArtistController::class, 'all'])->name('artists.all');
     
     // ArtLover space
     Route::get('/artlover/space', [ArtLoverController::class, 'space'])->name('artlover.space');
