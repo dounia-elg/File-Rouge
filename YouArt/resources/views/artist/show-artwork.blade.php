@@ -68,19 +68,44 @@
                             </div>
                         </div>
                         @auth
-                        <div class="mt-4">
-                            @if(!$artwork->isLikedBy(Auth::user()))
-                                <form action="{{ route('artworks.like', $artwork) }}" method="POST" class="inline">
-                                    @csrf
-                                    <button type="submit" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition">Like</button>
-                                </form>
-                            @else
-                                <form action="{{ route('artworks.unlike', $artwork) }}" method="POST" class="inline">
-                                    @csrf
-                                    <button type="submit" class="px-4 py-2 bg-gray-300 text-red-600 rounded hover:bg-gray-400 transition">Unlike</button>
-                                </form>
-                            @endif
+                        <div class="mt-4 flex items-center space-x-2">
+                            <button id="like-btn" data-artwork-id="{{ $artwork->id }}" class="focus:outline-none">
+                                <svg id="like-heart" xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 transition" viewBox="0 0 24 24" stroke="currentColor" fill="{{ $artwork->isLikedBy(Auth::user()) ? 'currentColor' : 'none' }}">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                                </svg>
+                            </button>
+                            <span id="like-count">{{ $artwork->likes()->count() }}</span>
                         </div>
+                        <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const likeBtn = document.getElementById('like-btn');
+                            const likeHeart = document.getElementById('like-heart');
+                            const likeCount = document.getElementById('like-count');
+                            likeBtn.addEventListener('click', function(e) {
+                                e.preventDefault();
+                                fetch(`/artworks/${likeBtn.dataset.artworkId}/toggle-like`, {
+                                    method: 'POST',
+                                    headers: {
+                                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                        'Accept': 'application/json',
+                                    },
+                                })
+                                .then(response => response.json())
+                                .then(data => {
+                                    likeCount.textContent = data.likeCount;
+                                    if (data.liked) {
+                                        likeHeart.setAttribute('fill', 'currentColor');
+                                        likeHeart.classList.remove('text-gray-400');
+                                        likeHeart.classList.add('text-red-500');
+                                    } else {
+                                        likeHeart.setAttribute('fill', 'none');
+                                        likeHeart.classList.remove('text-red-500');
+                                        likeHeart.classList.add('text-gray-400');
+                                    }
+                                });
+                            });
+                        });
+                        </script>
                         @endauth
                     </div>
                     
