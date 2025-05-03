@@ -170,4 +170,24 @@ class ArtworkController extends Controller
         }
         return back();
     }
+
+    /**
+     * Toggle like/unlike for AJAX requests
+     */
+    public function toggleLikeAjax(Artwork $artwork)
+    {
+        $user = Auth::user();
+        $liked = false;
+        if ($artwork->isLikedBy($user)) {
+            $artwork->likes()->detach($user->id);
+        } else {
+            $artwork->likes()->attach($user->id);
+            $liked = true;
+        }
+        $likeCount = $artwork->likes()->count();
+        return response()->json([
+            'liked' => $liked,
+            'likeCount' => $likeCount
+        ]);
+    }
 }

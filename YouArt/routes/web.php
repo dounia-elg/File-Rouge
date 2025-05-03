@@ -67,6 +67,7 @@ Route::middleware(['auth'])->group(function () {
     // Like/unlike routes
     Route::post('/artworks/{artwork}/like', [ArtworkController::class, 'like'])->name('artworks.like');
     Route::post('/artworks/{artwork}/unlike', [ArtworkController::class, 'unlike'])->name('artworks.unlike');
+    Route::post('/artworks/{artwork}/toggle-like', [ArtworkController::class, 'toggleLikeAjax'])->name('artworks.toggleLikeAjax');
 });
 
 // Admin  

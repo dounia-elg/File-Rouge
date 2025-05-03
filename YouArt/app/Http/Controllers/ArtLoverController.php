@@ -13,17 +13,9 @@ class ArtLoverController extends Controller
      */
     public function space()
     {
-        // Get featured workshops
-        $featuredWorkshops = Workshop::orderBy('id', 'desc')
-            ->take(3)
-            ->get();
-
-        // Get featured artworks
-        $featuredArtworks = Artwork::orderBy('id', 'desc')
-            ->take(6)
-            ->get();
-
-        return view('artlover.space', compact('featuredWorkshops', 'featuredArtworks'));
+        $user = auth()->user();
+        $favoriteArtworks = $user->likedArtworks()->with('user')->latest()->get();
+        return view('artlover.space', compact('user', 'favoriteArtworks'));
     }
 
     public function edit()
