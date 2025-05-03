@@ -18,6 +18,7 @@
                 <div class="flex space-x-6">
                     <a href="{{ route('home') }}" class="text-gray-700 hover:text-red-500">Home</a>
                     <a href="{{ route('workshops.index') }}" class="text-gray-700 hover:text-red-500">Workshops</a>
+                    <a href="{{ route('artworks.all') }}" class="text-gray-700 hover:text-red-500">Artworks</a>
                     @auth
                         @if(Auth::user()->role === 'artist')
                             <a href="{{ route('artist.space') }}" class="text-gray-700 hover:text-red-500">My Space</a>
