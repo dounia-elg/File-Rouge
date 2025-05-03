@@ -85,4 +85,40 @@ class ArtistController extends Controller
         $artists = \App\Models\User::where('role', 'artist')->latest()->get();
         return view('artist.all-artists', compact('artists'));
     }
+
+    /**
+     * Show public profile for an artist
+     */
+    public function profile($id)
+    {
+        $artist = \App\Models\User::where('id', $id)->where('role', 'artist')->firstOrFail();
+        $artworks = $artist->artworks()->latest()->get();
+        return view('artist.public-profile', compact('artist', 'artworks'));
+    }
+
+    /**
+     * Follow an artist
+     */
+    public function follow($id)
+    {
+        $artist = \App\Models\User::where('id', $id)->where('role', 'artist')->firstOrFail();
+        $user = auth()->user();
+        if (!$user->isFollowing($artist)) {
+            $user->following()->attach($artist->id);
+        }
+        return back();
+    }
+
+    /**
+     * Unfollow an artist
+     */
+    public function unfollow($id)
+    {
+        $artist = \App\Models\User::where('id', $id)->where('role', 'artist')->firstOrFail();
+        $user = auth()->user();
+        if ($user->isFollowing($artist)) {
+            $user->following()->detach($artist->id);
+        }
+        return back();
+    }
 }

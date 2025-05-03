@@ -16,7 +16,7 @@
                 @if($artist->bio)
                     <p class="text-gray-500 text-xs mb-2 line-clamp-2">{{ $artist->bio }}</p>
                 @endif
-                <a href="#" class="mt-2 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition">View Profile</a>
+                <a href="{{ route('artist.profile', ['id' => $artist->id]) }}" class="mt-2 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition">View Profile</a>
             </div>
         @empty
             <div class="col-span-3 text-center text-gray-500">No artists found.</div>

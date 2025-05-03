@@ -96,4 +96,36 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(\App\Models\Workshop::class, 'workshop_likes')->withTimestamps();
     }
+
+    /**
+     * Artists this user is following (for art lovers)
+     */
+    public function following()
+    {
+        return $this->belongsToMany(User::class, 'follows', 'follower_id', 'followed_id')->withTimestamps();
+    }
+
+    /**
+     * Users following this artist
+     */
+    public function followers()
+    {
+        return $this->belongsToMany(User::class, 'follows', 'followed_id', 'follower_id')->withTimestamps();
+    }
+
+    /**
+     * Check if this user is following another user
+     */
+    public function isFollowing($user)
+    {
+        return $this->following()->where('followed_id', $user->id)->exists();
+    }
+
+    /**
+     * Check if this user is followed by another user
+     */
+    public function isFollowedBy($user)
+    {
+        return $this->followers()->where('follower_id', $user->id)->exists();
+    }
 }

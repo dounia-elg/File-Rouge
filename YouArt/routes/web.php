@@ -53,6 +53,11 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/artist/update', [ArtistController::class, 'update'])->name('artist.update');
     // All artists page
     Route::get('/artists', [ArtistController::class, 'all'])->name('artists.all');
+    // Public artist profile page
+    Route::get('/artists/{id}', [ArtistController::class, 'profile'])->name('artist.profile');
+    // Follow/unfollow artist
+    Route::post('/artists/{id}/follow', [ArtistController::class, 'follow'])->name('artist.follow');
+    Route::post('/artists/{id}/unfollow', [ArtistController::class, 'unfollow'])->name('artist.unfollow');
     
     // ArtLover space
     Route::get('/artlover/space', [ArtLoverController::class, 'space'])->name('artlover.space');
