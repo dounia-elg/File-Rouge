@@ -5,7 +5,13 @@
     <div class="max-w-4xl mx-auto">
         <!-- Breadcrumb -->
         <div class="mb-6">
-            <a href="{{ route('artist.space') }}" class="text-gray-600 hover:text-red-600">
+            @if(Auth::user()->role === 'artist')
+                <a href="{{ route('artist.space') }}" class="text-gray-600 hover:text-red-600">
+            @elseif(Auth::user()->role === 'art_lover')
+                <a href="{{ route('artlover.space') }}" class="text-gray-600 hover:text-red-600">
+            @else
+                <a href="{{ route('home') }}" class="text-gray-600 hover:text-red-600">
+            @endif
                 <span class="inline-block mr-2">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M9.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L7.414 9H15a1 1 0 110 2H7.414l2.293 2.293a1 1 0 010 1.414z" clip-rule="evenodd" />
