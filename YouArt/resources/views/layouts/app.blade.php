@@ -19,7 +19,13 @@
                     <a href="{{ route('home') }}" class="text-gray-700 hover:text-red-500">Home</a>
                     <a href="{{ route('workshops.index') }}" class="text-gray-700 hover:text-red-500">Workshops</a>
                     @auth
-                        <a href="{{ route('artist.space') }}" class="text-gray-700 hover:text-red-500">My Space</a>
+                        @if(Auth::user()->role === 'artist')
+                            <a href="{{ route('artist.space') }}" class="text-gray-700 hover:text-red-500">My Space</a>
+                        @elseif(Auth::user()->role === 'art_lover')
+                            <a href="{{ route('artlover.space') }}" class="text-gray-700 hover:text-red-500">My Space</a>
+                        @elseif(Auth::user()->role === 'admin')
+                            <a href="{{ route('admin.dashboard') }}" class="text-gray-700 hover:text-red-500">Dashboard</a>
+                        @endif
                         <form action="{{ route('logout') }}" method="POST" class="inline">
                             @csrf
                             <button type="submit" class="text-gray-700 hover:text-red-500">Logout</button>
