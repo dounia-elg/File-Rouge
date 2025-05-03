@@ -15,7 +15,8 @@ class ArtLoverController extends Controller
     {
         $user = auth()->user();
         $favoriteArtworks = $user->likedArtworks()->with('user')->latest()->get();
-        return view('artlover.space', compact('user', 'favoriteArtworks'));
+        $favoriteWorkshops = $user->likedWorkshops()->latest()->get();
+        return view('artlover.space', compact('user', 'favoriteArtworks', 'favoriteWorkshops'));
     }
 
     public function edit()
