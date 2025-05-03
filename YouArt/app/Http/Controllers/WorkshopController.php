@@ -10,12 +10,15 @@ class WorkshopController extends Controller
     /**
      * Display a listing of the workshops.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $query = $request->input('q');
         $workshops = Workshop::orderBy('id', 'desc')
-                            ->paginate(9);
-        
-        return view('workshops.index', compact('workshops'));
+            ->when($query, function($qB) use ($query) {
+                $qB->where('title', 'ILIKE', "%$query%");
+            })
+            ->paginate(9);
+        return view('workshops.index', compact('workshops', 'query'));
     }
 
     /**

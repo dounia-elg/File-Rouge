@@ -5,6 +5,10 @@
 @section('content')
 <div class="container mx-auto px-4 py-8">
     <h1 class="text-3xl font-bold mb-8">Art Workshops</h1>
+    <form method="GET" action="{{ route('workshops.index') }}" class="mb-8 flex justify-center">
+        <input type="text" name="q" value="{{ isset($query) ? $query : '' }}" placeholder="Search workshops by title..." class="px-4 py-2 border border-gray-300 rounded-l focus:outline-none focus:ring-2 focus:ring-red-400 w-64">
+        <button type="submit" class="px-4 py-2 bg-red-500 text-white rounded-r hover:bg-red-600 transition">Search</button>
+    </form>
     
     @if($workshops->isEmpty())
         <div class="text-center py-8">
