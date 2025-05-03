@@ -62,6 +62,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/artworks/{artwork}/edit', [ArtworkController::class, 'edit'])->name('artworks.edit');
     Route::put('/artworks/{artwork}', [ArtworkController::class, 'update'])->name('artworks.update');
     Route::delete('/artworks/{artwork}', [ArtworkController::class, 'destroy'])->name('artworks.destroy');
+    // All artworks page
+    Route::get('/artworks', [ArtworkController::class, 'all'])->name('artworks.all');
 });
 
 // Admin  

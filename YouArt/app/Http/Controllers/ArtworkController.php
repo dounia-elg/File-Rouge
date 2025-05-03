@@ -137,4 +137,13 @@ class ArtworkController extends Controller
 
         return redirect()->route('artist.space')->with('success', 'Artwork deleted successfully');
     }
+
+    /**
+     * Show all artworks ordered by newest first
+     */
+    public function all()
+    {
+        $artworks = Artwork::orderBy('created_at', 'desc')->get();
+        return view('artworks.all', compact('artworks'));
+    }
 }
