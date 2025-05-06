@@ -4,12 +4,12 @@
 
 @section('content')
 <div class="container mx-auto px-4 py-8">
-    <h1 class="text-3xl font-bold mb-8">Art Workshops</h1>
+    <h1 class="text-3xl font-bold mb-8 text-center">Art Workshops</h1>
     <form method="GET" action="{{ route('workshops.index') }}" class="mb-8 flex justify-center">
         <input type="text" name="q" value="{{ isset($query) ? $query : '' }}" placeholder="Search workshops by title..." class="px-4 py-2 border border-gray-300 rounded-l focus:outline-none focus:ring-2 focus:ring-red-400 w-64">
-        <button type="submit" class="px-4 py-2 bg-red-500 text-white rounded-r hover:bg-red-600 transition">Search</button>
+        <button type="submit" class="px-4 py-2 bg-rust text-cream rounded-r hover:bg-coffee transition">Search</button>
     </form>
-    
+
     @if($workshops->isEmpty())
         <div class="text-center py-8">
             <p class="text-gray-600 text-lg">No workshops available at the moment.</p>
@@ -29,7 +29,7 @@
                                 <i class="fas fa-paint-brush text-4xl text-gray-400"></i>
                             </div>
                         @endif
-                        
+
                         <div class="absolute top-2 right-2 bg-black bg-opacity-70 text-white px-2 py-1 text-sm rounded">
                             {{ $workshop->formatted_duration }}
                         </div>
@@ -37,19 +37,19 @@
                         <!-- Like button removed from here -->
                         @endauth
                     </div>
-                    
+
                     <div class="p-4">
                         <h3 class="text-xl font-bold mb-2">{{ $workshop->title }}</h3>
                         <p class="text-gray-600 mb-4 line-clamp-2">{{ $workshop->description }}</p>
-                        
+
                         <div class="flex justify-between items-center text-sm text-gray-500 mb-4">
                             <span>{{ $workshop->date ? $workshop->date->format('M d, Y') : 'Added: ' . $workshop->created_at->format('M d, Y') }}</span>
-                            
+
                         </div>
-                        
+
                         <div class="flex justify-between items-center mb-2">
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
-                                {{ $workshop->skill_level == 'beginner' ? 'bg-green-100 text-green-800' : 
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+                                {{ $workshop->skill_level == 'beginner' ? 'bg-green-100 text-green-800' :
                                 ($workshop->skill_level == 'intermediate' ? 'bg-blue-100 text-blue-800' : 'bg-purple-100 text-purple-800') }}">
                                 {{ ucfirst($workshop->skill_level) }}
                             </span>
@@ -65,7 +65,7 @@
                             @endauth
                         </div>
                         <div class="flex justify-end items-center">
-                            <a href="{{ route('workshops.show', $workshop) }}" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded transition-colors">
+                            <a href="{{ route('workshops.show', $workshop) }}" class="bg-rust text-cream hover:bg-coffee px-4 py-2 rounded transition-colors">
                                 Watch Now
                             </a>
                         </div>
@@ -73,7 +73,7 @@
                 </div>
             @endforeach
         </div>
-        
+
         <div class="mt-8 flex justify-center">
             {{ $workshops->links() }}
         </div>
@@ -118,4 +118,4 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 @endauth
-@endsection 
+@endsection

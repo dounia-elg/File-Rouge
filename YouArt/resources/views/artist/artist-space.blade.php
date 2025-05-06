@@ -1,208 +1,291 @@
 @extends('layouts.app')
 
 @section('content')
-<!-- Main container with no padding -->
-<div>
-    <!-- Artist Profile Header -->
-    <div class="relative">
-        <!-- Hero image background -->
-        <div class="w-full h-64 bg-cover bg-center" style="background-image: url('{{ asset('images/heroArtist.jpg') }}');">
-            <div class="absolute top-0 left-0 w-full h-full bg-black bg-opacity-30"></div>
-            <div class="absolute top-4 left-4 text-white">
-                <h1 class="text-xl font-medium">Artist Profile</h1>
-            </div>
+<div class="bg-cream text-charcoal">
+    <!-- Hero Section with Decorative Elements -->
+    <section class="relative overflow-hidden">
+        <div class="w-full h-80 bg-cover bg-center" style="background-image: url('{{ asset('images/t.jpg') }}');">
+
         </div>
-    </div>
+    </section>
 
     <!-- Artist Profile Card -->
     <div class="container mx-auto px-4">
-        <div class="bg-white shadow-md rounded-lg -mt-16 relative z-10 overflow-visible">
-            <div class="p-6">
+        <div class="bg-sand shadow-lg rounded-lg -mt-16 relative z-10 overflow-visible transform ">
+            <div class="p-8">
                 <div class="flex flex-col md:flex-row">
-            <!-- Profile Image -->
-                    <div class="flex-shrink-0 -mt-16 md:-ml-2 mb-4 md:mb-0">
-                        <img src="{{ $user->profile_image ? asset('storage/' . $user->profile_image) : asset('images/default-profile.jpg') }}" 
-                             alt="{{ $user->name }}" 
-                             class="w-24 h-24 rounded-full border-4 border-white shadow-md">
+                    <!-- Profile Image with Decorative Frame -->
+                    <div class="">
+
+                        <img src="{{ $user->profile_image ? asset('storage/' . $user->profile_image) : asset('images/default-profile.jpg') }}"
+                             alt="{{ $user->name }}"
+                             class="relative w-24 h-24 rounded-full border-4 border-cream shadow-lg">
                     </div>
-                    
+
                     <!-- Profile Details -->
                     <div class="md:ml-6 flex-grow">
                         <div class="flex flex-col md:flex-row justify-between">
                             <div>
-                                <h2 class="text-2xl font-bold">{{ $user->name }}</h2>
-                                <p class="text-gray-600">{{ $user->position ?? 'Digital Artist' }}</p>
-                                
-                                <div class="flex mt-2">
-                                    <div class="flex items-center mr-4">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                                        <span class="ml-1 text-sm text-gray-600">{{ $user->location ?? 'Safi, Morroco' }}</span>
-                                    </div>
-                                    
+                                <h2 class="text-3xl font-bold text-charcoal serif">{{ $user->name }}</h2>
+                                <p class="text-coffee italic">{{ $user->position ?? 'Digital Artist' }}</p>
+
+                                <div class="flex mt-4 space-x-6">
                                     <div class="flex items-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                    </svg>
-                                        <span class="ml-1 text-sm text-gray-600">{{ $user->followers ?? 0 }} followers</span>
+                                        <div class="bg-cream p-2 rounded-full mr-2">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-terracotta" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                            </svg>
+                                        </div>
+                                        <span class="text-sm text-coffee">{{ $user->location ?? 'Safi, Morocco' }}</span>
+                                    </div>
+
+                                    <div class="flex items-center">
+                                        <div class="bg-cream p-2 rounded-full mr-2">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-terracotta" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                                            </svg>
+                                        </div>
+                                        <span class="text-sm text-coffee">{{ $user->followers ?? 0 }} followers</span>
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <!-- Edit Profile Button -->
                             <div class="mt-4 md:mt-0">
-                                <a href="{{ route('artist.edit') }}" class="bg-red-600 text-white px-4 py-2 rounded-full text-sm hover:bg-red-700">
+                                <a href="{{ route('artist.edit') }}" class="bg-rust text-cream px-6 py-2 rounded-full text-sm hover:bg-coffee transition transform hover:scale-105 inline-flex items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                                    </svg>
                                     Edit Profile
                                 </a>
                             </div>
                         </div>
-                        
-                        <!-- Bio -->
-                        <div class="mt-4">
-                            <p class="text-gray-700">{{ $user->bio ?? 'wxcvbn,kloiuhygfdezertyuik' }}</p>
+
+                        <!-- Bio with Decorative Quote -->
+                        <div class="mt-6 relative">
+                            <div class="absolute -left-4 top-0 text-4xl text-terracotta/30 font-serif">"</div>
+                            <div class="absolute -right-4 bottom-0 text-4xl text-terracotta/30 font-serif">"</div>
+                            <p class="text-charcoal pl-6 pr-6 italic">{{ $user->bio ?? 'Every artist dips their brush in their own soul, and paints their own nature into their artworks. Share your unique perspective with the world through every stroke and creation.' }}</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    
-    <!-- My Artworks Section -->
-    <div class="container mx-auto px-4 py-8">
-        <div class="mb-8">
-            <div class="flex justify-between items-center mb-4">
-                <h2 class="text-2xl font-bold">My Artworks</h2>
-                <a href="{{ route('artworks.create') }}" class="bg-red-600 text-white px-4 py-2 rounded-full text-sm hover:bg-red-700">+ Add Artwork</a>
-            </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                @if(count($artworks) > 0)
-                    @foreach($artworks as $artwork)
-                        <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                            <div class="relative">
-                                <a href="{{ route('artworks.show', $artwork->id) }}">
-                                    <img src="{{ asset('storage/' . $artwork->image_path) }}" alt="{{ $artwork->title }}" class="w-full h-48 object-cover">
-                                </a>
-                               
-                                @if($artwork->is_sold)
-                                    <div class="absolute top-2 left-2 bg-red-600 text-white text-xs px-2 py-1 rounded-full">
-                                        SOLD
-                                    </div>
-                                @endif
-                            </div>
-                            <div class="p-4">
-                                <div class="flex justify-between items-start">
-                                    <h3 class="font-bold">
-                                        <a href="{{ route('artworks.show', $artwork->id) }}" class="hover:text-red-600">
-                                            {{ $artwork->title }}
-                                        </a>
-                                    </h3>
-                                    <div class="dropdown">
-                                        <button class="text-gray-500 hover:text-gray-800">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                                <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
-                                            </svg>
-                                        </button>
-                                        <div class="hidden absolute right-0 mt-2 w-32 bg-white rounded-lg shadow-lg z-10 py-1">
-                                            <a href="{{ route('artworks.edit', $artwork->id) }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Edit</a>
-                                            <form action="{{ route('artworks.destroy', $artwork->id) }}" method="POST" class="block">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100" onclick="return confirm('Are you sure you want to delete this artwork?')">Delete</button>
-                                            </form>
-                                        </div>
+
+
+    <!-- My Artworks Section -->
+    <div class="mb-12  mt-16">
+        <div class="flex justify-between items-center mb-8">
+            <div>
+                <h2 class="text-3xl font-bold text-charcoal serif">My Artworks</h2>
+            </div>
+            <a href="{{ route('artworks.create') }}" class="bg-rust text-cream px-6 py-2 rounded-full text-sm hover:bg-coffee transition transform hover:scale-105 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                </svg>
+                Add Artwork
+            </a>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            @if(count($artworks) > 0)
+                @foreach($artworks as $artwork)
+                    <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition transform hover:-translate-y-1 art-grid-item">
+                        <div class="relative">
+                            <a href="{{ route('artworks.show', $artwork->id) }}">
+                                <img src="{{ asset('storage/' . $artwork->image_path) }}" alt="{{ $artwork->title }}" class="w-full h-48 object-cover">
+                            </a>
+
+                            @if($artwork->is_sold)
+                                <div class="absolute top-2 left-2 bg-rust text-cream text-xs px-3 py-1 rounded-full">
+                                    SOLD
+                                </div>
+                            @endif
+                        </div>
+                        <div class="p-6">
+                            <div class="flex justify-between items-start">
+                                <h3 class="font-bold text-charcoal text-lg">
+                                    <a href="{{ route('artworks.show', $artwork->id) }}" class="hover:text-rust transition">
+                                        {{ $artwork->title }}
+                                    </a>
+                                </h3>
+                                <div class="dropdown">
+                                    <button class="text-coffee hover:text-rust">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                            <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
+                                        </svg>
+                                    </button>
+                                    <div class="hidden absolute right-0 mt-2 w-32 bg-sand rounded-lg shadow-lg z-10 py-1">
+                                        <a href="{{ route('artworks.edit', $artwork->id) }}" class="block px-4 py-2 text-sm text-charcoal hover:bg-cream">Edit</a>
+                                        <form action="{{ route('artworks.destroy', $artwork->id) }}" method="POST" class="block">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="w-full text-left px-4 py-2 text-sm text-rust hover:bg-cream" onclick="return confirm('Are you sure you want to delete this artwork?')">Delete</button>
+                                        </form>
                                     </div>
                                 </div>
-                                <p class="text-sm text-gray-600">{{ $artwork->category }}</p>
-                                <div class="mt-2 flex justify-between items-center">
-                                    <span class="font-bold text-red-600">${{ number_format($artwork->price, 2) }}</span>
-                                    <div class="flex items-center text-sm text-gray-500">
-                                        <div class="flex items-center mr-2">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                                            </svg>
-                                            {{ $artwork->likes }}
-                                        </div>
-                                        <div class="flex items-center">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                            </svg>
-                                            {{ $artwork->views }}
-                                        </div>
+                            </div>
+                            <p class="text-sm text-coffee mt-2">{{ $artwork->category }}</p>
+                            <div class="mt-4 flex justify-between items-center">
+                                <span class="font-bold text-rust text-lg">${{ number_format($artwork->price, 2) }}</span>
+                                <div class="flex items-center space-x-4 text-sm text-coffee">
+                                    <div class="flex items-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 text-terracotta" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                                        </svg>
+                                        {{ $artwork->likes }}
+                                    </div>
+                                    <div class="flex items-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 text-terracotta" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                        </svg>
+                                        {{ $artwork->views }}
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    @endforeach
-                @else
-                    <div class="col-span-3 bg-gray-50 border border-gray-200 rounded-lg p-8 text-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    </div>
+                @endforeach
+            @else
+                <div class="col-span-3 bg-sand border border-cream rounded-lg p-12 text-center">
+                    <div class="w-24 h-24 mx-auto mb-6 bg-cream rounded-full flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-terracotta" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                         </svg>
-                        <h4 class="mt-2 text-lg font-medium text-gray-900">No artworks yet</h4>
-                        <p class="mt-1 text-gray-500">Add your first artwork to showcase your talent</p>
                     </div>
-                @endif
-            </div>
+                    <h4 class="text-2xl font-medium text-charcoal serif">No artworks yet</h4>
+                    <p class="mt-2 text-coffee">Start your artistic journey by adding your first masterpiece</p>
+                    <a href="{{ route('artworks.create') }}" class="mt-6 inline-block bg-rust text-cream px-6 py-2 rounded-full text-sm hover:bg-coffee transition transform hover:scale-105">
+                        Create Your First Artwork
+                    </a>
+                </div>
+            @endif
         </div>
-        
-        <!-- Performance Statistics -->
-        <div class="bg-white rounded-lg shadow-md p-6">
-            <h2 class="text-xl font-bold mb-6">Performance Statistics</h2>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+    </div>
+
+    <!-- Performance Statistics -->
+    <div class="container mx-auto px-4 py-12">
+        <div class="bg-sand rounded-lg shadow-lg p-8 transform  mb-12">
+            <h2 class="text-2xl font-bold mb-8 text-charcoal serif">Your Creative Journey</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
                 <div class="flex items-center">
-                    <div class="mr-4 bg-pink-100 p-3 rounded-full">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-pink-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <div class="mr-4 bg-cream p-4 rounded-full">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-terracotta" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                         </svg>
                     </div>
                     <div>
-                        <p class="text-sm text-gray-500">Total Artworks</p>
-                        <p class="text-xl font-bold">{{ count($artworks) }}</p>
+                        <p class="text-sm text-coffee">Total Artworks</p>
+                        <p class="text-2xl font-bold text-charcoal">{{ count($artworks) }}</p>
                     </div>
                 </div>
-                
+
                 <div class="flex items-center">
-                    <div class="mr-4 bg-purple-100 p-3 rounded-full">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <div class="mr-4 bg-cream p-4 rounded-full">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-terracotta" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                         </svg>
                     </div>
                     <div>
-                        <p class="text-sm text-gray-500">Sold Artworks</p>
-                        <p class="text-xl font-bold">{{ $artworks->where('is_sold', true)->count() }}</p>
+                        <p class="text-sm text-coffee">Sold Artworks</p>
+                        <p class="text-2xl font-bold text-charcoal">{{ $artworks->where('is_sold', true)->count() }}</p>
                     </div>
                 </div>
-                
+
                 <div class="flex items-center">
-                    <div class="mr-4 bg-blue-100 p-3 rounded-full">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <div class="mr-4 bg-cream p-4 rounded-full">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-terracotta" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                         </svg>
                     </div>
                     <div>
-                        <p class="text-sm text-gray-500">Total Views</p>
-                        <p class="text-xl font-bold">{{ $artworks->sum('views') }}</p>
+                        <p class="text-sm text-coffee">Total Views</p>
+                        <p class="text-2xl font-bold text-charcoal">{{ $artworks->sum('views') }}</p>
                     </div>
                 </div>
-                
+
                 <div class="flex items-center">
-                    <div class="mr-4 bg-green-100 p-3 rounded-full">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <div class="mr-4 bg-cream p-4 rounded-full">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-terracotta" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                     </div>
-            <div>
-                        <p class="text-sm text-gray-500">Total Earnings</p>
-                        <p class="text-xl font-bold">${{ number_format($artworks->where('is_sold', true)->sum('price'), 2) }}</p>
+                    <div>
+                        <p class="text-sm text-coffee">Total Earnings</p>
+                        <p class="text-2xl font-bold text-charcoal">${{ number_format($artworks->where('is_sold', true)->sum('price'), 2) }}</p>
                     </div>
                 </div>
             </div>
         </div>
+
+
     </div>
+
+    <!-- Followed Artists -->
+    <div class="container mx-auto px-4 py-12">
+        <div class="w-full max-w-6xl mx-auto">
+            <h2 class="text-2xl font-bold mb-4 text-left serif text-charcoal">Artists You Follow</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+                @forelse($followedArtists as $artist)
+                    <div class="bg-white rounded-xl shadow-md p-4 flex flex-col items-center border border-cream art-grid-item">
+                        <img src="{{ $artist->profile_image ? asset('storage/' . $artist->profile_image) : asset('images/default-profile.jpg') }}" alt="{{ $artist->name }}" class="w-20 h-20 rounded-full object-cover mb-3 border-4 border-sand">
+                        <h3 class="text-lg font-semibold serif text-charcoal mb-1">{{ $artist->name }}</h3>
+                        @if($artist->location)
+                            <p class="text-coffee text-sm mb-1">{{ $artist->location }}</p>
+                        @endif
+                        @if($artist->bio)
+                            <p class="text-coffee text-xs mb-2 line-clamp-2 text-center">{{ $artist->bio }}</p>
+                        @endif
+                        <a href="{{ route('artist.profile', ['id' => $artist->id]) }}" class="mt-2 px-4 py-2 bg-rust text-cream rounded hover:bg-coffee transition text-sm">View Profile</a>
+                    </div>
+                @empty
+                    <div class="col-span-3 text-center text-coffee">You are not following any artists yet.</div>
+                @endforelse
+            </div>
+        </div>
+    </div>
+
 </div>
+
+<style>
+    .art-grid-item {
+        transition: transform 0.3s ease;
+    }
+
+    .art-grid-item:hover {
+        transform: scale(1.03);
+    }
+
+    h1, h2, h3, .serif {
+        font-family: 'Playfair Display', serif;
+    }
+</style>
+
+<script>
+    // JavaScript for enhanced interactivity
+    document.addEventListener('DOMContentLoaded', function() {
+        // Dropdown toggle functionality
+        const dropdownButtons = document.querySelectorAll('.dropdown button');
+        dropdownButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const dropdown = button.nextElementSibling;
+                dropdown.classList.toggle('hidden');
+            });
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (event) => {
+            if (!event.target.closest('.dropdown')) {
+                document.querySelectorAll('.dropdown div').forEach(dropdown => {
+                    dropdown.classList.add('hidden');
+                });
+            }
+        });
+    });
+</script>
 @endsection

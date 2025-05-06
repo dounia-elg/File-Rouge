@@ -17,8 +17,8 @@ class ArtistController extends Controller
     {
         $user = Auth::user();
         $artworks = $user->artworks()->latest()->get();
-        
-        return view('artist.artist-space', compact('user', 'artworks'));
+        $followedArtists = $user->following()->where('role', 'artist')->get();
+        return view('artist.artist-space', compact('user', 'artworks', 'followedArtists'));
     }
     
     /**
