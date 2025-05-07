@@ -96,9 +96,8 @@ Route::middleware(['auth', AdminMiddleware::class])->prefix('admin')->name('admi
     Route::delete('/users/{user}/delete', [AdminController::class, 'deleteUser'])->name('users.delete');
     
     // Artwork management 
-    Route::get('/artworks', function() {
-        return view('admin.dashboard'); 
-    })->name('artworks');
+    Route::get('/artworks', [AdminController::class, 'artworks'])->name('artworks');
+    Route::patch('/artworks/{artwork}/mark-sold', [AdminController::class, 'markArtworkAsSold'])->name('artworks.markSold');
     
     // Workshop management
     Route::get('/workshops', [AdminWorkshopController::class, 'index'])->name('workshops.index');

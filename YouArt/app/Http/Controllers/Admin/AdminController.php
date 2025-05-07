@@ -43,8 +43,22 @@ class AdminController extends Controller
      */
     public function artworks()
     {
-        $artworks = Artwork::with('user')->latest()->get();
-        return view('admin.artworks.index', compact('artworks'));
+        $soldArtworks = Artwork::with(['user', 'payment', 'payment.user'])
+            ->where('is_sold', true)
+            ->latest()
+            ->get();
+            
+        $availableArtworks = Artwork::with('user')
+            ->where('is_sold', false)
+            ->latest()
+            ->get();
+            
+        $potentialBuyers = User::where('role', 'art_lover')
+            ->orWhere('role', 'admin')
+            ->orderBy('name')
+            ->get();
+            
+        return view('admin.artworks.index', compact('soldArtworks', 'availableArtworks', 'potentialBuyers'));
     }
     
     /**
@@ -82,5 +96,38 @@ class AdminController extends Controller
         $user->delete();
         
         return redirect()->back()->with('success', 'User deleted successfully.');
+    }
+    
+    /**
+     * Mark an artwork as sold
+     */
+    public function markArtworkAsSold(Request $request, Artwork $artwork)
+    {
+        // Validate the request
+        $request->validate([
+            'buyer_id' => 'required|exists:users,id',
+        ]);
+        
+        // Create a payment record
+        $payment = new \App\Models\Payment([
+            'user_id' => $request->buyer_id,
+            'artwork_id' => $artwork->id,
+            'amount' => $artwork->price,
+            'currency' => 'usd',
+            'status' => 'completed',
+            'stripe_payment_id' => 'admin-' . time(), // Placeholder for admin-created payments
+            'payment_details' => json_encode([
+                'method' => 'admin_marked',
+                'admin_id' => auth()->id(),
+                'created_at' => now()->toIso8601String()
+            ]),
+        ]);
+        $payment->save();
+        
+        // Mark artwork as sold
+        $artwork->is_sold = true;
+        $artwork->save();
+        
+        return redirect()->route('admin.artworks')->with('success', 'Artwork marked as sold successfully.');
     }
 }

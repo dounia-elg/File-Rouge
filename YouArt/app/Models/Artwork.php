@@ -61,4 +61,20 @@ class Artwork extends Model
     {
         return $this->likes()->where('user_id', $user->id)->exists();
     }
+
+    /**
+     * Get the payment for this artwork
+     */
+    public function payment()
+    {
+        return $this->hasOne(Payment::class);
+    }
+    
+    /**
+     * Get the buyer of this artwork
+     */
+    public function buyer()
+    {
+        return $this->payment ? $this->payment->user : null;
+    }
 } 
