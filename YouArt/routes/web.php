@@ -11,6 +11,7 @@ use App\Http\Controllers\AdminDashboardController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Models\Workshop;
 use App\Http\Controllers\ArtLoverController;
+use App\Http\Controllers\PaymentController;
 
 // Home route
 Route::get('/', function () {
@@ -77,6 +78,11 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/artworks/{artwork}/like', [ArtworkController::class, 'like'])->name('artworks.like');
     Route::post('/artworks/{artwork}/unlike', [ArtworkController::class, 'unlike'])->name('artworks.unlike');
     Route::post('/artworks/{artwork}/toggle-like', [ArtworkController::class, 'toggleLikeAjax'])->name('artworks.toggleLikeAjax');
+
+    // Payment Routes
+    Route::get('/payment/checkout/{artwork}', [PaymentController::class, 'checkout'])->name('payment.checkout');
+    Route::get('/payment/success/{artwork}', [PaymentController::class, 'success'])->name('payment.success');
+    Route::get('/payment/cancel/{artwork}', [PaymentController::class, 'cancel'])->name('payment.cancel');
 });
 
 // Admin  

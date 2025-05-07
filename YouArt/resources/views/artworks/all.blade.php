@@ -3,22 +3,53 @@
 @section('title', 'All Artworks')
 
 @section('content')
-<div class="max-w-6xl mx-auto">
-    <h1 class="text-3xl font-bold mb-8 text-center">All Artworks</h1>
+<div class="container mx-auto px-4 py-8 bg-cream">
+    <h1 class="text-3xl font-bold mb-8 text-center text-rust serif flex justify-center items-center">
+        <i class="fas fa-palette mr-3"></i>Discover Artworks
+    </h1>
+    
     <form method="GET" action="{{ route('artworks.all') }}" class="mb-8 flex justify-center">
-        <input type="text" name="q" value="{{ isset($query) ? $query : '' }}" placeholder="Search artworks by title..." class="px-4 py-2 border border-gray-300 rounded-l focus:outline-none focus:ring-2 focus:ring-red-400 w-64">
-        <button type="submit" class="px-4 py-2 bg-rust text-cream rounded-r hover:bg-coffee transition">Search</button>
+        <div class="relative w-full max-w-md">
+            <input type="text" 
+                   name="q" 
+                   value="{{ isset($query) ? $query : '' }}" 
+                   placeholder="Search artworks by title..." 
+                   class="w-full px-4 py-3 pr-10 border border-terracotta border-opacity-30 rounded-md focus:outline-none focus:ring focus:ring-rust focus:ring-opacity-30 bg-sand">
+            <button type="submit" class="absolute right-3 top-3 text-coffee hover:text-rust transition">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
     </form>
+    
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
         @forelse($artworks as $artwork)
-            <a href="{{ route('artworks.show', $artwork) }}" class="bg-white rounded shadow p-4 flex flex-col items-center hover:shadow-lg transition cursor-pointer">
-                <img src="{{ $artwork->image_path ? asset('storage/' . $artwork->image_path) : asset('images/default-artwork.jpg') }}" alt="{{ $artwork->title }}" class="w-full h-48 object-cover rounded mb-4">
-                <h2 class="text-lg font-semibold mb-1">{{ $artwork->title }}</h2>
-                <p class="text-gray-600 text-sm mb-1">By {{ $artwork->user->name ?? 'Unknown' }}</p>
-                <p class="text-gray-400 text-xs">{{ $artwork->created_at->format('M d, Y') }}</p>
+            <a href="{{ route('artworks.show', $artwork) }}" 
+               class="bg-sand rounded-lg shadow-md p-5 flex flex-col hover:shadow-lg transition transform hover:-translate-y-1">
+                <div class="overflow-hidden rounded-md mb-4 border-2 border-cream">
+                    <img src="{{ $artwork->image_path ? asset('storage/' . $artwork->image_path) : asset('images/default-artwork.jpg') }}" 
+                         alt="{{ $artwork->title }}" 
+                         class="w-full h-48 object-cover hover:scale-105 transition duration-300">
+                </div>
+                <h2 class="text-lg font-semibold mb-1 text-charcoal serif">{{ $artwork->title }}</h2>
+                <p class="text-coffee text-sm mb-1 flex items-center">
+                    <i class="fas fa-user-circle mr-1"></i>By {{ $artwork->user->name ?? 'Unknown' }}
+                </p>
+                
+                <div class="mt-auto flex justify-between items-center pt-3">
+                    <p class="text-rust font-bold text-lg">${{ number_format($artwork->price, 0) }}</p>
+                    <p class="text-coffee text-xs flex items-center">
+                        <i class="fas fa-calendar-alt mr-1"></i>{{ $artwork->created_at->format('M d, Y') }}
+                    </p>
+                </div>
             </a>
         @empty
-            <div class="col-span-3 text-center text-gray-500">No artworks found.</div>
+            <div class="col-span-3 text-center py-12 bg-sand rounded-lg shadow-md">
+                <div class="w-20 h-20 mx-auto bg-cream rounded-full flex items-center justify-center mb-4">
+                    <i class="fas fa-palette text-terracotta text-2xl"></i>
+                </div>
+                <p class="text-coffee text-lg">No artworks found matching your search criteria.</p>
+                <p class="mt-2 text-coffee italic">Try searching with different keywords.</p>
+            </div>
         @endforelse
     </div>
 </div>

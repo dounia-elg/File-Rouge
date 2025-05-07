@@ -1,16 +1,22 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container mx-auto px-4 py-8">
-    <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-md p-6">
-        <h1 class="text-2xl font-bold mb-6">Edit Profile</h1>
+<div class="container mx-auto px-4 py-8 bg-cream">
+    <div class="max-w-2xl mx-auto bg-sand rounded-lg shadow-md p-8">
+        <h1 class="text-3xl font-bold mb-8 text-rust serif flex items-center">
+            <i class="fas fa-user-edit mr-3"></i>Edit Profile
+        </h1>
         
         <form action="{{ route('artist.update') }}" method="POST" enctype="multipart/form-data">
             @csrf
             
             @if ($errors->any())
-                <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6">
-                    <ul class="list-disc pl-4">
+                <div class="bg-rust bg-opacity-10 border-l-4 border-rust text-rust p-4 mb-6 rounded">
+                    <div class="flex items-center mb-2">
+                        <i class="fas fa-exclamation-circle mr-2"></i>
+                        <span class="font-medium">Please fix the following errors:</span>
+                    </div>
+                    <ul class="list-disc pl-10">
                         @foreach ($errors->all() as $error)
                             <li>{{ $error }}</li>
                         @endforeach
@@ -19,54 +25,71 @@
             @endif
             
             <div class="mb-6">
-                <label for="profile_image" class="block mb-2 text-sm font-medium text-gray-700">Profile Image</label>
-                <div class="flex items-center space-x-4">
+                <label for="profile_image" class="block mb-2 text-coffee font-medium flex items-center">
+                    <i class="fas fa-user-circle mr-2"></i>Profile Image
+                </label>
+                <div class="flex items-center space-x-6">
                     <div class="flex-shrink-0">
-                        <img src="{{ $user->profile_image ? asset('storage/' . $user->profile_image) : asset('images/default-profile.jpg') }}" 
-                             alt="{{ $user->name }}" 
-                             class="w-24 h-24 rounded-full object-cover">
+                        <div class="w-32 h-32 rounded-full overflow-hidden border-4 border-cream shadow-md">
+                            <img src="{{ $user->profile_image ? asset('storage/' . $user->profile_image) : asset('images/default-profile.jpg') }}" 
+                                alt="{{ $user->name }}" 
+                                class="w-full h-full object-cover">
+                        </div>
                     </div>
                     <div class="flex-grow">
-                        <input type="file" name="profile_image" id="profile_image" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none">
-                        <p class="mt-1 text-xs text-gray-500">JPG, PNG or GIF. Max 2MB.</p>
+                        <input type="file" name="profile_image" id="profile_image" 
+                               class="block w-full text-charcoal border border-terracotta border-opacity-30 rounded-lg cursor-pointer bg-cream p-2 focus:outline-none focus:border-rust">
+                        <p class="mt-2 text-xs text-coffee italic flex items-center">
+                            <i class="fas fa-info-circle mr-1"></i> JPG, PNG or GIF. Max 2MB.
+                        </p>
                     </div>
                 </div>
             </div>
             
-            <div class="mb-4">
-                <label for="name" class="block mb-2 text-sm font-medium text-gray-700">Name</label>
+            <div class="mb-5">
+                <label for="name" class="block mb-2 text-coffee font-medium flex items-center">
+                    <i class="fas fa-user mr-2"></i>Name
+                </label>
                 <input type="text" name="name" id="name" value="{{ old('name', $user->name) }}" required
-                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-600">
+                       class="w-full px-3 py-3 border border-terracotta border-opacity-30 rounded-md focus:outline-none focus:ring focus:ring-rust focus:ring-opacity-30 bg-cream">
             </div>
             
-            <div class="mb-4">
-                <label for="position" class="block mb-2 text-sm font-medium text-gray-700">Position/Title</label>
+            <div class="mb-5">
+                <label for="position" class="block mb-2 text-coffee font-medium flex items-center">
+                    <i class="fas fa-briefcase mr-2"></i>Position/Title
+                </label>
                 <input type="text" name="position" id="position" value="{{ old('position', $user->position) }}" 
-                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-600"
+                       class="w-full px-3 py-3 border border-terracotta border-opacity-30 rounded-md focus:outline-none focus:ring focus:ring-rust focus:ring-opacity-30 bg-cream"
                        placeholder="e.g. Digital Artist">
             </div>
             
-            <div class="mb-4">
-                <label for="location" class="block mb-2 text-sm font-medium text-gray-700">Location</label>
+            <div class="mb-5">
+                <label for="location" class="block mb-2 text-coffee font-medium flex items-center">
+                    <i class="fas fa-map-marker-alt mr-2"></i>Location
+                </label>
                 <input type="text" name="location" id="location" value="{{ old('location', $user->location) }}" 
-                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-600"
-                       placeholder="e.g. Safi, Morroco">
+                       class="w-full px-3 py-3 border border-terracotta border-opacity-30 rounded-md focus:outline-none focus:ring focus:ring-rust focus:ring-opacity-30 bg-cream"
+                       placeholder="e.g. Safi, Morocco">
             </div>
             
             <div class="mb-6">
-                <label for="bio" class="block mb-2 text-sm font-medium text-gray-700">Bio</label>
+                <label for="bio" class="block mb-2 text-coffee font-medium flex items-center">
+                    <i class="fas fa-quote-left mr-2"></i>Bio
+                </label>
                 <textarea name="bio" id="bio" rows="4" 
-                          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-600"
+                          class="w-full px-3 py-3 border border-terracotta border-opacity-30 rounded-md focus:outline-none focus:ring focus:ring-rust focus:ring-opacity-30 bg-cream"
                           placeholder="Tell us about yourself and your art...">{{ old('bio', $user->bio) }}</textarea>
-                <p class="mt-1 text-xs text-gray-500">Max 1000 characters</p>
+                <p class="mt-2 text-xs text-coffee italic flex items-center">
+                    <i class="fas fa-info-circle mr-1"></i> Max 1000 characters
+                </p>
             </div>
             
             <div class="flex justify-end space-x-4">
-                <a href="{{ route('artist.space') }}" class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">
-                    Cancel
+                <a href="{{ route('artist.space') }}" class="px-5 py-3 border border-coffee text-coffee rounded-md hover:bg-coffee hover:text-cream transition flex items-center">
+                    <i class="fas fa-times mr-2"></i>Cancel
                 </a>
-                <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">
-                    Save Changes
+                <button type="submit" class="px-5 py-3 bg-rust text-cream rounded-md hover:bg-coffee transition flex items-center">
+                    <i class="fas fa-save mr-2"></i>Save Changes
                 </button>
             </div>
         </form>
