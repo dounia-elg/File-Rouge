@@ -84,12 +84,6 @@
                             </p>
                             <p class="text-charcoal font-medium">{{ $artwork->dimensions }}</p>
                         </div>
-                        <div>
-                            <p class="text-coffee text-sm mb-1 flex items-center">
-                                <i class="fas fa-tag text-terracotta mr-2"></i>Category
-                            </p>
-                            <p class="text-charcoal font-medium">{{ $artwork->category }}</p>
-                        </div>
                     </div>
                 </div>
                 

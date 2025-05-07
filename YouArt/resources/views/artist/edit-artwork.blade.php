@@ -53,23 +53,6 @@
             </div>
             
             <div class="mb-5">
-                <label for="category" class="block mb-2 text-coffee font-medium flex items-center">
-                    <i class="fas fa-tag mr-2"></i>Category
-                </label>
-                <select name="category" id="category" required
-                        class="w-full px-3 py-3 border border-terracotta border-opacity-30 rounded-md focus:outline-none focus:ring focus:ring-rust focus:ring-opacity-30 bg-cream">
-                    <option value="">Select Category</option>
-                    <option value="Digital Illustration" {{ old('category', $artwork->category) == 'Digital Illustration' ? 'selected' : '' }}>Digital Illustration</option>
-                    <option value="Character Design" {{ old('category', $artwork->category) == 'Character Design' ? 'selected' : '' }}>Character Design</option>
-                    <option value="Concept Art" {{ old('category', $artwork->category) == 'Concept Art' ? 'selected' : '' }}>Concept Art</option>
-                    <option value="Traditional Painting" {{ old('category', $artwork->category) == 'Traditional Painting' ? 'selected' : '' }}>Traditional Painting</option>
-                    <option value="Photography" {{ old('category', $artwork->category) == 'Photography' ? 'selected' : '' }}>Photography</option>
-                    <option value="Sculpture" {{ old('category', $artwork->category) == 'Sculpture' ? 'selected' : '' }}>Sculpture</option>
-                    <option value="Mixed Media" {{ old('category', $artwork->category) == 'Mixed Media' ? 'selected' : '' }}>Mixed Media</option>
-                </select>
-            </div>
-            
-            <div class="mb-5">
                 <label for="price" class="block mb-2 text-coffee font-medium flex items-center">
                     <i class="fas fa-dollar-sign mr-2"></i>Price ($)
                 </label>

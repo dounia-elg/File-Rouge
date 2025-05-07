@@ -24,7 +24,6 @@ class ArtworkController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'category' => 'required|string|max:255',
             'price' => 'required|numeric|min:0',
             'dimensions' => 'required|string|max:255',
             'image' => 'required|image|max:5048',
@@ -39,7 +38,6 @@ class ArtworkController extends Controller
         // Create artwork
         $artwork = new Artwork([
             'title' => $validated['title'],
-            'category' => $validated['category'],
             'price' => $validated['price'],
             'dimensions' => $validated['dimensions'],
             'description' => $validated['description'],
@@ -84,7 +82,6 @@ class ArtworkController extends Controller
 
         $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'category' => 'required|string|max:255',
             'price' => 'required|numeric|min:0',
             'dimensions' => 'required|string|max:255',
             'image' => 'nullable|image|max:5048',
@@ -106,7 +103,6 @@ class ArtworkController extends Controller
 
         // Update artwork properties
         $artwork->title = $validated['title'];
-        $artwork->category = $validated['category'];
         $artwork->price = $validated['price'];
         $artwork->dimensions = $validated['dimensions'];
         $artwork->description = $validated['description'];

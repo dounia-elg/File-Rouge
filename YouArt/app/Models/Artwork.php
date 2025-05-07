@@ -16,7 +16,6 @@ class Artwork extends Model
      */
     protected $fillable = [
         'title',
-        'category',
         'description',
         'price',
         'dimensions',

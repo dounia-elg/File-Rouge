@@ -93,60 +93,14 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             @if(count($artworks) > 0)
                 @foreach($artworks as $artwork)
-                    <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition transform hover:-translate-y-1 art-grid-item">
-                        <div class="relative">
-                            <a href="{{ route('artworks.show', $artwork->id) }}">
-                                <img src="{{ asset('storage/' . $artwork->image_path) }}" alt="{{ $artwork->title }}" class="w-full h-48 object-cover">
-                            </a>
-
-                            @if($artwork->is_sold)
-                                <div class="absolute top-2 left-2 bg-rust text-cream text-xs px-3 py-1 rounded-full">
-                                    SOLD
-                                </div>
-                            @endif
-                        </div>
-                        <div class="p-6">
-                            <div class="flex justify-between items-start">
-                                <h3 class="font-bold text-charcoal text-lg">
-                                    <a href="{{ route('artworks.show', $artwork->id) }}" class="hover:text-rust transition">
-                                        {{ $artwork->title }}
-                                    </a>
-                                </h3>
-                                <div class="dropdown">
-                                    <button class="text-coffee hover:text-rust">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                            <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
-                                        </svg>
-                                    </button>
-                                    <div class="hidden absolute right-0 mt-2 w-32 bg-sand rounded-lg shadow-lg z-10 py-1">
-                                        <a href="{{ route('artworks.edit', $artwork->id) }}" class="block px-4 py-2 text-sm text-charcoal hover:bg-cream">Edit</a>
-                                        <form action="{{ route('artworks.destroy', $artwork->id) }}" method="POST" class="block">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="w-full text-left px-4 py-2 text-sm text-rust hover:bg-cream" onclick="return confirm('Are you sure you want to delete this artwork?')">Delete</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                            <p class="text-sm text-coffee mt-2">{{ $artwork->category }}</p>
-                            <div class="mt-4 flex justify-between items-center">
-                                <span class="font-bold text-rust text-lg">${{ number_format($artwork->price, 2) }}</span>
-                                <div class="flex items-center space-x-4 text-sm text-coffee">
-                                    <div class="flex items-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 text-terracotta" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                                        </svg>
-                                        {{ $artwork->likes }}
-                                    </div>
-                                    <div class="flex items-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 text-terracotta" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                        </svg>
-                                        {{ $artwork->views }}
-                                    </div>
-                                </div>
-                            </div>
+                    <div class="bg-white rounded-lg overflow-hidden transition-transform duration-300 hover:transform hover:scale-102 hover:shadow-lg">
+                        <a href="{{ route('artworks.show', $artwork) }}" class="block relative h-44 overflow-hidden">
+                            <img class="w-full h-full object-cover object-center transition-transform duration-500 hover:scale-110" 
+                                 src="{{ asset('storage/' . $artwork->image_path) }}" alt="{{ $artwork->title }}">
+                        </a>
+                        <div class="p-4">
+                            <h3 class="text-lg font-playfair text-charcoal mb-1 line-clamp-1">{{ $artwork->title }}</h3>
+                            <p class="text-sm text-coffee mt-2">${{ number_format($artwork->price, 2) }}</p>
                         </div>
                     </div>
                 @endforeach

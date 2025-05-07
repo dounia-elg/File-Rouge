@@ -40,9 +40,8 @@
                             <th class="p-4 text-left text-charcoal">Artwork</th>
                             <th class="p-4 text-left text-charcoal">Title</th>
                             <th class="p-4 text-left text-charcoal">Artist</th>
-                            <th class="p-4 text-left text-charcoal">Category</th>
                             <th class="p-4 text-left text-charcoal">Price</th>
-                            <th class="p-4 text-left text-charcoal">Sale Date</th>
+                            <th class="p-4 text-left text-charcoal">Date Sold</th>
                             <th class="p-4 text-left text-charcoal">Purchased By</th>
                             <th class="p-4 text-left text-charcoal">Actions</th>
                         </tr>
@@ -67,11 +66,6 @@
                                         </div>
                                         <span>{{ $artwork->user->name }}</span>
                                     </div>
-                                </td>
-                                <td class="p-4">
-                                    <span class="px-3 py-1 bg-terracotta bg-opacity-20 text-terracotta rounded-full text-xs">
-                                        {{ $artwork->category }}
-                                    </span>
                                 </td>
                                 <td class="p-4 font-medium">${{ number_format($artwork->price, 2) }}</td>
                                 <td class="p-4 text-coffee">{{ $artwork->updated_at->format('M d, Y') }}</td>
@@ -126,7 +120,6 @@
                             <th class="p-4 text-left text-charcoal">Artwork</th>
                             <th class="p-4 text-left text-charcoal">Title</th>
                             <th class="p-4 text-left text-charcoal">Artist</th>
-                            <th class="p-4 text-left text-charcoal">Category</th>
                             <th class="p-4 text-left text-charcoal">Price</th>
                             <th class="p-4 text-left text-charcoal">Date Added</th>
                             <th class="p-4 text-left text-charcoal">Likes</th>
@@ -153,11 +146,6 @@
                                         </div>
                                         <span>{{ $artwork->user->name }}</span>
                                     </div>
-                                </td>
-                                <td class="p-4">
-                                    <span class="px-3 py-1 bg-terracotta bg-opacity-20 text-terracotta rounded-full text-xs">
-                                        {{ $artwork->category }}
-                                    </span>
                                 </td>
                                 <td class="p-4 font-medium">${{ number_format($artwork->price, 2) }}</td>
                                 <td class="p-4 text-coffee">{{ $artwork->created_at->format('M d, Y') }}</td>
