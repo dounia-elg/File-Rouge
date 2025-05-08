@@ -90,18 +90,7 @@
         
         <!-- Main Content -->
         <div class="flex-1 overflow-auto">
-            <header class="bg-sand shadow-md">
-                <div class="p-5 flex justify-between items-center">
-                    <h1 class="text-xl font-bold text-coffee serif">
-                        <i class="fas fa-brush mr-2"></i> YouArt Administration
-                    </h1>
-                    <div class="flex items-center">
-                        <span class="text-sm text-coffee mr-3">
-                            <i class="far fa-clock mr-1"></i> {{ date('F j, Y') }}
-                        </span>
-                    </div>
-                </div>
-            </header>
+            
             
             <main>
                 @if (session('success'))

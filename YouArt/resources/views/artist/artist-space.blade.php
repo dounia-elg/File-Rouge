@@ -27,7 +27,6 @@
                         <div class="flex flex-col md:flex-row justify-between">
                             <div>
                                 <h2 class="text-3xl font-bold text-charcoal serif">{{ $user->name }}</h2>
-                                <p class="text-coffee italic">{{ $user->position ?? 'Digital Artist' }}</p>
 
                                 <div class="flex mt-4 space-x-6">
                                     <div class="flex items-center">

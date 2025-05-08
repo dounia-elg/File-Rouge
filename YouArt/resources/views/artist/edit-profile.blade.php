@@ -55,15 +55,6 @@
             </div>
             
             <div class="mb-5">
-                <label for="position" class="block mb-2 text-coffee font-medium flex items-center">
-                    <i class="fas fa-briefcase mr-2"></i>Position/Title
-                </label>
-                <input type="text" name="position" id="position" value="{{ old('position', $user->position) }}" 
-                       class="w-full px-3 py-3 border border-terracotta border-opacity-30 rounded-md focus:outline-none focus:ring focus:ring-rust focus:ring-opacity-30 bg-cream"
-                       placeholder="e.g. Digital Artist">
-            </div>
-            
-            <div class="mb-5">
                 <label for="location" class="block mb-2 text-coffee font-medium flex items-center">
                     <i class="fas fa-map-marker-alt mr-2"></i>Location
                 </label>

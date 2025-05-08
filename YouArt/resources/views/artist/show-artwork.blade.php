@@ -51,7 +51,6 @@
                     </div>
                     <div>
                         <p class="font-semibold text-charcoal">{{ $artwork->user->name }}</p>
-                        <p class="text-coffee text-sm">{{ $artwork->user->position ?? 'Professional Artist' }}</p>
                     </div>
                 </div>
                 
