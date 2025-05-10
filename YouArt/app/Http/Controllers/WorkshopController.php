@@ -7,9 +7,7 @@ use Illuminate\Http\Request;
 
 class WorkshopController extends Controller
 {
-    /**
-     * Display a listing of the workshops.
-     */
+
     public function index(Request $request)
     {
         $query = $request->input('q');
@@ -21,20 +19,16 @@ class WorkshopController extends Controller
         return view('workshops.index', compact('workshops', 'query'));
     }
 
-    /**
-     * Display the specified workshop video.
-     */
+
     public function show(Workshop $workshop)
     {
-        // Increment view count
+
         $workshop->increment('views');
-        
+
         return view('workshops.show', compact('workshop'));
     }
-    
-    /**
-     * Like a workshop (AJAX and normal)
-     */
+
+
     public function like(Workshop $workshop)
     {
         $user = auth()->user();
@@ -44,9 +38,7 @@ class WorkshopController extends Controller
         return back();
     }
 
-    /**
-     * Unlike a workshop
-     */
+
     public function unlike(Workshop $workshop)
     {
         $user = auth()->user();
@@ -56,9 +48,7 @@ class WorkshopController extends Controller
         return back();
     }
 
-    /**
-     * Toggle like/unlike for AJAX requests
-     */
+    
     public function toggleLikeAjax(Workshop $workshop)
     {
         $user = auth()->user();
@@ -75,4 +65,4 @@ class WorkshopController extends Controller
             'likeCount' => $likeCount
         ]);
     }
-} 
+}

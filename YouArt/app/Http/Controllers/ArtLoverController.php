@@ -8,9 +8,7 @@ use App\Models\Artwork;
 
 class ArtLoverController extends Controller
 {
-    /**
-     * Show the ArtLover dashboard
-     */
+
     public function space()
     {
         $user = auth()->user();
@@ -36,7 +34,7 @@ class ArtLoverController extends Controller
             'profile_image' => 'nullable|image|max:2048',
         ]);
 
-        // Handle profile image upload
+        
         if ($request->hasFile('profile_image')) {
             if ($user->profile_image && \Storage::exists('public/' . $user->profile_image)) {
                 \Storage::delete('public/' . $user->profile_image);
@@ -49,4 +47,4 @@ class ArtLoverController extends Controller
 
         return redirect()->route('artlover.space')->with('success', 'Profile updated successfully!');
     }
-} 
+}

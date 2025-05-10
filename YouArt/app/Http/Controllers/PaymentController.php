@@ -15,7 +15,7 @@ class PaymentController extends Controller
 {
     public function __construct()
     {
-        // Ensure API key is set in the constructor
+
         if (config('services.stripe.secret')) {
             Stripe::setApiKey(config('services.stripe.secret'));
         } else {
@@ -25,7 +25,7 @@ class PaymentController extends Controller
 
     public function checkout(Artwork $artwork)
     {
-        // Guard clauses
+
         if ($artwork->is_sold) {
             return redirect()->back()->with('error', 'This artwork has already been sold.');
         }
@@ -36,10 +36,10 @@ class PaymentController extends Controller
 
         try {
             Log::info('Creating Stripe checkout session', ['artwork_id' => $artwork->id, 'user_id' => Auth::id()]);
-            
+
             $successUrl = route('payment.success', ['artwork' => $artwork->id]) . '?session_id={CHECKOUT_SESSION_ID}';
             $cancelUrl = route('payment.cancel', ['artwork' => $artwork->id]);
-            
+
             $session = Session::create([
                 'payment_method_types' => ['card'],
                 'line_items' => [[
@@ -50,7 +50,7 @@ class PaymentController extends Controller
                             'description' => $artwork->description ?? 'Artwork purchase',
                             'images' => [$artwork->image_path ? asset('storage/' . $artwork->image_path) : null],
                         ],
-                        'unit_amount' => (int)($artwork->price * 100), // Convert to cents, ensure integer
+                        'unit_amount' => (int)($artwork->price * 100),
                     ],
                     'quantity' => 1,
                 ]],
@@ -66,7 +66,7 @@ class PaymentController extends Controller
             ]);
 
             Log::info('Stripe session created successfully', ['session_id' => $session->id]);
-            
+
             return redirect($session->url);
         } catch (ApiErrorException $e) {
             Log::error('Stripe API Error: ' . $e->getMessage(), [
@@ -91,8 +91,8 @@ class PaymentController extends Controller
             'request' => $request->all(),
             'session_id' => $request->get('session_id')
         ]);
+
         
-        // Validate session ID exists
         if (!$request->has('session_id')) {
             Log::error('Session ID missing in success callback');
             return redirect()->route('artworks.show', $artwork)
@@ -102,7 +102,7 @@ class PaymentController extends Controller
         try {
             $sessionId = $request->get('session_id');
             $session = Session::retrieve($sessionId);
-            
+
             Log::info('Stripe session retrieved', [
                 'session' => [
                     'id' => $session->id,
@@ -110,7 +110,7 @@ class PaymentController extends Controller
                     'amount_total' => $session->amount_total,
                 ]
             ]);
-            
+
             if ($session->payment_status === 'paid') {
                 // Create payment record
                 $payment = Payment::create([

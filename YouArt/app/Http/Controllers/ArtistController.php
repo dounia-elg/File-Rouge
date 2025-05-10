@@ -10,9 +10,7 @@ use Illuminate\Support\Facades\Storage;
 
 class ArtistController extends Controller
 {
-    /**
-     * Display the artist space
-     */
+
     public function space()
     {
         $user = Auth::user();
@@ -20,19 +18,15 @@ class ArtistController extends Controller
         $followedArtists = $user->following()->where('role', 'artist')->get();
         return view('artist.artist-space', compact('user', 'artworks', 'followedArtists'));
     }
-    
-    /**
-     * Show the artist profile edit form
-     */
+
+
     public function edit()
     {
         $user = Auth::user();
         return view('artist.edit-profile', compact('user'));
     }
-    
-    /**
-     * Update the artist profile
-     */
+
+
     public function update(Request $request)
     {
         try {
@@ -43,33 +37,33 @@ class ArtistController extends Controller
                 'bio' => 'nullable|string|max:1000',
                 'profile_image' => 'nullable|image|max:2048',
             ]);
-            
+
             $user = Auth::user();
-            
-            // Handle profile image upload
+
+
             if ($request->hasFile('profile_image')) {
                 if ($user->profile_image && Storage::exists('public/' . $user->profile_image)) {
                     Storage::delete('public/' . $user->profile_image);
                 }
-                
+
                 $imagePath = $request->file('profile_image')->store('profile-images', 'public');
                 $validated['profile_image'] = $imagePath;
             }
-            
-            // Only update fields that are in the database table 
+
+
             $fieldsToUpdate = [];
-            
-            // Check if fields exist in users table before attempting to update
+
+
             $columns = Schema::getColumnListing('users');
-            
+
             foreach ($validated as $field => $value) {
                 if (in_array($field, $columns)) {
                     $fieldsToUpdate[$field] = $value;
                 }
             }
-            
+
             $user->update($fieldsToUpdate);
-            
+
             return redirect()->route('artist.space')->with('success', 'Profile updated successfully');
         } catch (\Exception $e) {
             \Log::error('Profile update error: ' . $e->getMessage());
@@ -77,9 +71,7 @@ class ArtistController extends Controller
         }
     }
 
-    /**
-     * Show all artists
-     */
+
     public function all(Request $request)
     {
         $query = $request->input('q');
@@ -91,9 +83,7 @@ class ArtistController extends Controller
         return view('artist.all-artists', compact('artists', 'query'));
     }
 
-    /**
-     * Show public profile for an artist
-     */
+
     public function profile($id)
     {
         $artist = \App\Models\User::where('id', $id)->where('role', 'artist')->firstOrFail();
@@ -101,9 +91,7 @@ class ArtistController extends Controller
         return view('artist.public-profile', compact('artist', 'artworks'));
     }
 
-    /**
-     * Follow an artist
-     */
+
     public function follow($id)
     {
         $artist = \App\Models\User::where('id', $id)->where('role', 'artist')->firstOrFail();
@@ -114,9 +102,7 @@ class ArtistController extends Controller
         return back();
     }
 
-    /**
-     * Unfollow an artist
-     */
+    
     public function unfollow($id)
     {
         $artist = \App\Models\User::where('id', $id)->where('role', 'artist')->firstOrFail();

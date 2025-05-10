@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Workshop extends Model
 {
     use HasFactory;
-    
+
     /**
      * The attributes that are mass assignable.
      *
@@ -30,29 +30,25 @@ class Workshop extends Model
         'date' => 'datetime',
     ];
 
-    /**
-     * Format the duration in hours and minutes
-     */
+
     public function getFormattedDurationAttribute()
     {
         $hours = floor($this->duration / 60);
         $minutes = $this->duration % 60;
-        
+
         if ($hours > 0) {
             return sprintf('%d:%02d', $hours, $minutes);
         }
-        
+
         return sprintf('%d:%02d', 0, $minutes);
     }
 
-    /**
-     * Get YouTube video ID from the video link
-     */
+
     public function getYoutubeIdAttribute()
     {
         $videoId = null;
         $url = $this->video_link;
-        
+
         if (preg_match('/youtube\.com\/watch\?v=([^&]+)/', $url, $matches)) {
             $videoId = $matches[1];
         } elseif (preg_match('/youtu\.be\/([^?]+)/', $url, $matches)) {
@@ -60,43 +56,35 @@ class Workshop extends Model
         } elseif (preg_match('/youtube\.com\/embed\/([^?]+)/', $url, $matches)) {
             $videoId = $matches[1];
         }
-        
+
         return $videoId;
     }
-    
-    /**
-     * Get the YouTube thumbnail URL
-     */
+
+
     public function getVideoThumbnailAttribute()
     {
         if ($this->youtube_id) {
             return "https://img.youtube.com/vi/{$this->youtube_id}/mqdefault.jpg";
         }
-        
+
         return null;
     }
 
-    /**
-     * Get the registrations for the workshop.
-     */
+
     public function registrations()
     {
         return $this->hasMany(WorkshopRegistration::class);
     }
 
-    /**
-     * Users who liked this workshop
-     */
+
     public function likes()
     {
         return $this->belongsToMany(User::class, 'workshop_likes')->withTimestamps();
     }
 
-    /**
-     * Check if a user liked this workshop
-     */
+    
     public function isLikedBy($user)
     {
         return $this->likes()->where('user_id', $user->id)->exists();
     }
-} 
+}
